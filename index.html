@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#16213e">
+<title>부동산학원론 적중키워드 (모바일)</title>
+<style>
+:root {
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --surface-soft: #f8f9fb;
+  --border: #e6e8ee;
+  --text: #1c2333;
+  --text-muted: #6b7280;
+  --text-faint: #9aa1b1;
+  --navy: #16213e;
+  --navy-soft: #1f2a4a;
+  --accent: #d97706;
+  --accent-soft: #fff4e5;
+  --correct: #16a34a;
+  --correct-bg: #eefdf3;
+  --incorrect: #dc2626;
+  --incorrect-bg: #fef1f1;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 10px rgba(16, 24, 40, 0.06), 0 2px 4px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 12px 28px rgba(16, 24, 40, 0.10), 0 4px 10px rgba(16, 24, 40, 0.06);
+  --bottombar-h: 64px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+a { color: inherit; text-decoration: none; }
+button, a { touch-action: manipulation; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Header ---------- */
+header.top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--navy);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  padding-top: env(safe-area-inset-top);
+}
+.top-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px max(16px, env(safe-area-inset-left)) 12px max(16px, env(safe-area-inset-right));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 100%;
+  min-width: 0;
+}
+.brand img.logo {
+  height: 18px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+  flex-shrink: 0;
+}
+.brand .divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255,255,255,0.22);
+  flex-shrink: 0;
+}
+.brand h1 {
+  font-size: clamp(16px, 4.6vw, 19px);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brand h1 .accent-dot { color: var(--accent); }
+.credit {
+  font-size: 12px;
+  color: rgba(255,255,255,0.68);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.credit strong {
+  color: rgba(255,255,255,0.92);
+  font-weight: 600;
+}
+
+/* progress pill in header */
+.header-progress {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  padding: 4px 11px 4px 5px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.header-progress .ring {
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+}
+
+/* ---------- Layout ---------- */
+.shell {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px max(16px, env(safe-area-inset-left)) 40px max(16px, env(safe-area-inset-right));
+}
+body.theme-view .shell { padding-bottom: calc(var(--bottombar-h) + 28px + env(safe-area-inset-bottom)); }
+
+/* ---------- Main ---------- */
+.main { min-width: 0; }
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--border);
+}
+.status-dot.correct { background: var(--correct); }
+.status-dot.incorrect { background: var(--incorrect); }
+
+/* Home view */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 60%, #2a3865 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 24px 22px 22px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217,119,6,0.28) 0%, rgba(217,119,6,0) 70%);
+}
+.hero h2 {
+  margin: 0 0 8px;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.hero p {
+  margin: 0;
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex;
+  gap: 20px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.hero-stat .num { font-size: 22px; font-weight: 800; }
+.hero-stat .lbl { font-size: 11.5px; color: rgba(255,255,255,0.65); margin-top: 2px; }
+
+.section-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  margin: 22px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+.section-title .line { flex: 1; height: 1px; background: var(--border); }
+
+.part-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 560px) {
+  .part-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 860px) {
+  .part-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.part-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+.part-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.part-badge {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 13px;
+  flex-shrink: 0;
+}
+.part-card-head .pname { font-weight: 800; font-size: 15px; }
+.part-card-head .pcount { margin-left: auto; font-size: 12px; color: var(--text-faint); font-weight: 700; }
+.part-progress-bar {
+  height: 6px;
+  background: var(--surface-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.part-progress-fill { height: 100%; border-radius: 999px; transition: width 0.2s ease; }
+.part-card-sub { font-size: 12px; color: var(--text-muted); }
+
+.theme-chip-grid {
+  display: none;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.part-card.expanded .theme-chip-grid { display: grid; }
+.theme-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  color: var(--text);
+  border: 1px solid transparent;
+  min-height: 44px;
+}
+.theme-chip .tno { color: var(--text-faint); font-size: 11.5px; flex-shrink: 0; }
+.theme-chip .status-dot { margin-left: auto; }
+
+/* Detail view */
+.crumb {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.crumb .sep { color: var(--text-faint); }
+
+.theme-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.theme-no-badge {
+  flex-shrink: 0;
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 15px;
+}
+.theme-header h2 {
+  margin: 0 0 4px;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.theme-header .part-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.audio-bar { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 15px; }
+.audio-toggle-btn, .audio-placeholder {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 16px;
+  min-height: 44px;
+  border-radius: 999px;
+}
+.audio-toggle-btn {
+  background: #eef2ff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
+}
+.audio-toggle-btn:active { background: #e0e7ff; }
+.audio-placeholder {
+  background: var(--surface-soft);
+  color: var(--text-faint);
+  border: 1px dashed var(--border);
+}
+.audio-player { width: 100%; height: 40px; }
+.audio-status {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fff7ed;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
+  line-height: 1.5;
+}
+.audio-status a { color: #c2410c; text-decoration: underline; font-weight: 700; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 16px;
+  margin-bottom: 14px;
+}
+.card-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 13px;
+}
+.card-label.step1 { background: #eef2ff; color: #4338ca; }
+.card-label.step2 { background: var(--accent-soft); color: #92400e; }
+
+.headline {
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+.definition {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0 0 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed var(--border);
+}
+.bullets { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.bullets li {
+  display: flex;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  align-items: flex-start;
+}
+.bullets li .bmark {
+  flex-shrink: 0;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--navy);
+  margin-top: 8px;
+}
+.tip-box {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--accent-soft);
+  border: 1px solid #fbe1b8;
+  border-radius: var(--radius-md);
+  padding: 12px 13px;
+  font-size: 13.5px;
+  color: #7c4a03;
+  line-height: 1.55;
+}
+.tip-box .tip-icon { flex-shrink: 0; font-size: 15px; }
+.tip-box b { font-weight: 800; }
+
+.question-text {
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+.choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
+.choice-btn {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-height: 48px;
+  text-align: left;
+  padding: 13px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid transparent;
+  background: var(--surface-soft);
+  font-size: 14.5px;
+  color: var(--text);
+  line-height: 1.5;
+  transition: border-color 0.1s ease, background 0.1s ease;
+}
+.choice-btn:active:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.choice-btn:disabled { cursor: default; }
+.choice-num {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12.5px; font-weight: 700;
+  color: var(--text-muted);
+}
+.choice-btn.selected .choice-num { border-color: var(--navy); background: var(--navy); color: #fff; }
+.choice-btn.correct-answer { border-color: var(--correct); background: var(--correct-bg); }
+.choice-btn.correct-answer .choice-num { border-color: var(--correct); background: var(--correct); color: #fff; }
+.choice-btn.wrong-answer { border-color: var(--incorrect); background: var(--incorrect-bg); }
+.choice-btn.wrong-answer .choice-num { border-color: var(--incorrect); background: var(--incorrect); color: #fff; }
+.choice-mark { margin-left: auto; font-size: 14.5px; font-weight: 800; flex-shrink: 0; }
+.choice-mark.ok { color: var(--correct); }
+.choice-mark.no { color: var(--incorrect); }
+
+.result-banner {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 14px;
+  margin: 14px 0;
+}
+.result-banner.show { display: flex; }
+.result-banner.ok { background: var(--correct-bg); color: #15803d; }
+.result-banner.no { background: var(--incorrect-bg); color: #b91c1c; }
+
+.explain-box {
+  display: none;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 15px;
+  margin-top: 4px;
+}
+.explain-box.show { display: block; }
+.explain-box .elabel {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.explain-box p { margin: 0; font-size: 13.5px; line-height: 1.65; color: var(--text); }
+
+.quiz-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
+.retry-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 15px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-height: 40px;
+}
+.retry-btn.show { display: inline-flex; }
+
+/* nav footer: fixed bottom tab bar on theme pages for thumb-friendly navigation */
+.nav-footer {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.94);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 14px rgba(16,24,40,0.08);
+  padding: 10px max(16px, env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-right));
+  max-width: 720px;
+  margin: 0 auto;
+}
+.nav-btn {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 10px;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.nav-btn.disabled { opacity: 0.35; pointer-events: none; }
+.nav-btn.list-btn { background: var(--navy); color: #fff; border-color: var(--navy); flex: 1.1; }
+
+.footer-note {
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 11.5px;
+  margin-top: 36px;
+  line-height: 1.7;
+}
+
+/* icons */
+.icon { width: 14px; height: 14px; display: inline-block; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <img class="logo" src="data:image/png;base64,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" alt="해커스 감정평가사">
+      <div class="divider"></div>
+      <h1>부동산학원론 적중키워드<span class="accent-dot">.</span></h1>
+    </div>
+    <div class="header-progress" id="headerProgress">
+      <svg class="ring" viewBox="0 0 36 36">
+        <path d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="4"/>
+        <path id="ringFill" d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" fill="none" stroke="#d97706" stroke-width="4" stroke-dasharray="0 100" stroke-linecap="round"/>
+      </svg>
+      <span id="progressText">0 / 100 완료</span>
+    </div>
+    <div class="credit"><strong>민영기</strong> 제공</div>
+  </div>
+</header>
+
+<noscript>
+  <div style="max-width:600px;margin:40px auto;padding:20px 22px;background:#fef1f1;border:1px solid #f7c9c9;border-radius:12px;color:#7a1f1f;font-family:-apple-system,sans-serif;line-height:1.7;">
+    <b>⚠️ 이 페이지는 자바스크립트가 꺼져 있어 보이지 않습니다.</b><br>
+    아이폰: 이 파일을 <b>Safari</b> 브라우저에서 열어주세요. (파일 앱에서 파일을 한 번 눌러 미리보기 → 하단/상단의 공유 아이콘 → <b>"Safari로 열기"</b> 선택)<br>
+    카카오톡 등에서 받으신 경우: 파일을 눌러 미리보기가 뜨면, 우측 상단 "..." 또는 공유 버튼에서 <b>"Safari로 열기"</b> 를 선택해주세요.
+  </div>
+</noscript>
+<div class="shell">
+  <main class="main" id="main">
+    <div style="text-align:center;color:#9aa1b1;font-size:13px;padding:60px 20px;">불러오는 중입니다…</div>
+  </main>
+</div>
+
+<script id="theme-data" type="application/json">[{"part": "총론", "theme": "부동산업의 분류(한국표준산업분류)", "headline": "부동산업의 분류체계", "definition": "한국표준산업분류(KSIC)상 부동산업의 체계: 대분류 아래 '부동산 임대 및 공급업'·'부동산 관련 서비스업' 2개 중분류, 다시 소분류·세분류까지 세분화", "bullets": ["임대 및 공급업: 임대업+개발 및 공급업으로 중분류", "임대업 세분류: 주거용·비주거용·기타 부동산 임대업", "관련서비스업: 관리업+중개,자문 및 감정평가업으로 중분류", "감정평가업은 '중개,자문 및 감정평가업' 소속(관리업 아님)", "분양대행업도 중개,자문 및 감정평가업의 세분류에 포함"], "tip": "임대·공급업(파는 것) vs 관련서비스업(도와주는 것)으로 구분, 감정평가업은 관리업이 아닌 중개·자문 계열임에 주의", "q": "한국표준산업분류상 부동산업의 분류로 옳지 않은 것은?", "choices": ["부동산 임대업은 부동산 임대 및 공급업에 속한다.", "부동산 개발 및 공급업은 부동산 임대 및 공급업에 속한다.", "부동산 감정평가업은 부동산 관리업에 속한다.", "부동산 중개 및 대리업은 부동산 중개, 자문 및 감정평가업에 속한다.", "부동산 관리업은 부동산 관련 서비스업에 속한다."], "ans": 3, "expl": "감정평가업은 '부동산 중개, 자문 및 감정평가업'(관련서비스업의 소분류)에 속하며, 부동산 관리업과는 별개의 소분류이다.", "no": 1, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_001.m4a"}, {"no": 2, "part": "총론", "theme": "부동산의 개념(복합개념)", "headline": "부동산의 복합개념", "definition": "부동산의 복합개념: 기술적·경제적·법률적 측면이 결합된 개념", "bullets": ["기술적개념: 공간·자연·위치·환경", "경제적개념: 자산·자본·생산요소·소비재·상품", "법률적개념: 협의(토지+정착물)·광의(협의+준부동산)", "3측면을 종합해 이해해야 함"], "tip": "'기·경·법' 3측면(기술/경제/법률) 암기", "q": "부동산의 복합개념에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산의 기술적 개념에는 공간, 위치, 환경 등이 포함된다.", "부동산의 복합개념은 법률적 개념만으로 부동산을 이해하는 방식이다.", "부동산의 경제적 개념에는 자산, 자본, 생산요소 등이 포함된다.", "부동산의 법률적 개념 중 협의의 부동산은 토지 및 그 정착물을 말한다.", "부동산의 무형적 측면에는 경제적·법률적 개념이 포함된다."], "ans": 2, "expl": "복합개념의 부동산은 법률적 개념뿐 아니라 경제적·기술적 측면을 모두 종합하여 이해하는 방식이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_002.m4a"}, {"no": 3, "part": "총론", "theme": "토지와 정착물의 구분", "headline": "토지와 정착물 구분", "definition": "정착물: 원래 동산이었으나 토지·건물에 항구적으로 부착되어 부동산의 일부로 취급되는 물건", "bullets": ["독립정착물: 토지와 별개로 거래(건물, 농작물)", "종속정착물: 토지와 함께만 거래(교량, 도로포장)", "임차자 정착물은 원칙적으로 동산 취급", "구분 불명확 시 정착물로 간주 → 매수인 소유"], "tip": "'독립정착물=따로 팔림' vs '종속정착물=토지랑 같이감'", "q": "부동산의 정착물에 관한 설명으로 옳지 않은 것은?", "choices": ["건물은 독립정착물로서 토지와 별도로 거래의 객체가 될 수 있다.", "임차인이 사업 편의를 위해 설치한 진열대는 원칙적으로 부동산 정착물로 취급된다.", "교량, 도로포장 등은 종속정착물로서 토지와 분리하여 거래되지 않는다.", "어떤 물건이 정착물인지 불분명한 경우에는 정착물로 간주하여 매수인에게 귀속된다.", "독립정착물은 토지와 함께가 아니라 별도로 소유권이 인정될 수 있다."], "ans": 2, "expl": "임차인이 설치한 진열대와 같은 거래정착물은 임차자 정착물로서 원칙적으로 동산으로 취급되며, 부동산 정착물에 포함되지 않는다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_003.m4a"}, {"no": 4, "part": "총론", "theme": "토지의 분류(나지·건부지·맹지 등)", "headline": "토지의 종류 구분", "definition": "토지의 용어 구분: 이용상태·법적 제한 등에 따라 나지, 건부지, 맹지 등으로 구분", "bullets": ["나지: 건물없고 사법상 제한없는 토지(공법상 제한은 받음)", "건부지: 건물이 서있는 부지", "맹지: 도로에 접하지 않아 건축허가 불가한 토지", "법지: 소유권은 있으나 사용수익 불가한 경사면"], "tip": "나지 vs 갱지: 나지는 사법상제한만 없음, 갱지는 일본개념(공법규제는 받되 사법제한 없음)", "q": "토지의 분류에 관한 설명으로 옳지 않은 것은?", "choices": ["나지는 건물 등 정착물이 없고 사법상 제한이 없는 토지를 말한다.", "맹지는 도로에 직접 접하고 있지 못하여 건축허가를 받을 수 없는 토지이다.", "건부지는 건물 등의 부지로 이용 중인 토지를 말한다.", "법지는 소유권은 인정되나 사실상 사용·수익이 불가능한 토지이다.", "나지는 공법상 제한을 받지 않는 토지를 말한다."], "ans": 5, "expl": "나지는 사법상의 제한을 받지 않는 토지이나, 공법상의 제한(용도지역제 등)은 받는다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_004.m4a"}, {"no": 5, "part": "총론", "theme": "주택의 분류(단독·공동주택)", "headline": "주택의 유형 구분", "definition": "주택의 구분: 층수·연면적 등 기준에 따라 단독주택과 공동주택으로 구분", "bullets": ["단독주택: 단독주택·다중주택·다가구주택·공관", "공동주택: 아파트(5개층↑)·연립주택·다세대주택", "다가구주택은 분양불가(단독주택 소속)", "국민주택: 전용 85㎡ 이하 + 공공기금 지원 주택"], "tip": "연립주택 vs 다세대주택: 둘다 4개층 이하, 바닥면적 660㎡ 초과/이하로 구분", "q": "주택의 분류에 관한 설명으로 옳지 않은 것은?", "choices": ["다가구주택은 공동주택으로 분류되어 세대별로 구분소유가 가능하다.", "아파트는 주택으로 쓰는 층수가 5개 층 이상인 주택이다.", "연립주택과 다세대주택은 바닥면적 660㎡ 초과 여부로 구분된다.", "다세대주택은 4개 층 이하이며 바닥면적이 660㎡ 이하이다.", "국민주택은 주거전용면적이 85㎡ 이하인 주택을 말한다."], "ans": 1, "expl": "다가구주택은 단독주택으로 분류되며 분양(구분소유)이 불가능하다. 세대별 구분소유가 가능한 것은 공동주택(다세대주택·아파트 등)이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_005.m4a"}, {"no": 6, "part": "총론", "theme": "부동산의 특성(부동성·부증성 등)", "headline": "토지의 자연적 특성", "definition": "토지의 자연적 특성: 부동성·부증성·영속성·개별성·인접성(다른 재화와 구별되는 특성)", "bullets": ["부동성: 지역분석·중개업·감정평가 필요근거", "부증성: 물리적 공급 불가, 균형가격 성립 방해", "개별성: 일물일가법칙 배제, 개별분석 필요", "인접성: 외부효과·지역지구제 필요근거"], "tip": "부증성→생산비법칙 배제 / 개별성→대체법칙(일물일가) 배제", "q": "토지의 자연적 특성에 관한 설명으로 옳지 않은 것은?", "choices": ["개별성으로 인해 부동산시장에서 일물일가의 법칙이 그대로 적용된다.", "부동성으로 인해 부동산활동은 임장활동의 성격을 갖는다.", "부증성으로 인해 토지는 물리적으로 공급을 늘릴 수 없다.", "인접성으로 인해 외부효과가 발생할 수 있다.", "부동성으로 인해 부동산시장은 지역시장으로 세분화되는 경향이 있다."], "ans": 1, "expl": "개별성(비대체성)으로 인해 동일한 부동산은 존재하지 않으므로 일물일가의 법칙이 성립하지 않는다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_006.m4a"}, {"no": 7, "part": "총론", "theme": "부동산의 속성(존재가치)", "headline": "부동산의 존재가치", "definition": "부동산의 존재가치: 자연물·공간·자산·자본 등 여러 측면을 동시에 지님", "bullets": ["자연물로서의 부동산: 부증성과 관련, 사유화로 토지문제 발생", "공간으로서의 부동산: 수평·공중·지중의 3차원 공간", "소유권은 지표권·공중권·지하권으로 구성", "공중권은 사적공중권과 공적공중권으로 구분"], "tip": "지표권/공중권/지하권 3가지 권리 암기", "q": "부동산의 공간적 속성에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산의 공간은 수평공간, 공중공간, 지중공간으로 구성된다.", "공적공중권은 토지소유자가 개인적으로 이용·관리할 수 있는 권리이다.", "공중공간과 지중공간을 합하여 입체공간이라 한다.", "지하권에는 지하자원을 채굴하거나 지하시설물을 설치·관리할 수 있는 권리가 포함된다.", "지표권은 지표상의 토지를 배타적으로 이용할 수 있는 권리를 말한다."], "ans": 2, "expl": "개인이 이용·관리할 수 있는 것은 사적공중권이다. 공적공중권은 공익목적으로 일정범위 이상의 공중공간을 이용하는 권리(항공권 등)를 말한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_007.m4a"}, {"no": 8, "part": "경제론", "theme": "유량(flow)과 저량(stock)", "headline": "유량과 저량의 구분", "definition": "저량·유량의 구분: 저량은 일정시점, 유량은 일정기간을 기준으로 측정하는 경제변수", "bullets": ["저량: 가계자산·주택재고량·인구·통화량 등", "유량: 소득·수출·신규주택공급량·주택거래량 등", "주택저량 수요량: 일정시점에 보유하고자 하는 양", "주택유량 수요량: 일정기간 동안 보유하고자 하는 양"], "tip": "저량='사진'(한순간) vs 유량='동영상'(기간 동안)", "q": "다음 중 유량(flow) 변수에 해당하는 것은?", "choices": ["신규 주택 공급량", "가계 자산", "주택 재고량", "인구수", "통화량"], "ans": 1, "expl": "신규 주택 공급량은 일정기간 동안 측정되는 유량변수이다. 가계자산, 주택재고량, 인구수, 통화량은 일정시점에서 측정되는 저량변수이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_008.m4a"}, {"no": 9, "part": "경제론", "theme": "부동산 수요의 결정요인", "headline": "부동산 수요결정요인", "definition": "부동산 수요의 결정: 가격 외에도 소득·인구·관련재화 가격 등 다양한 요인의 영향", "bullets": ["수요법칙: 가격과 수요량은 반비례(우하향곡선)", "정상재: 소득증가 시 수요증가(곡선 우측이동)", "열등재: 소득증가 시 수요감소(곡선 좌측이동)", "대체재가격상승→수요증가 / 보완재가격상승→수요감소"], "tip": "가격변화=수요량 변화(곡선상 이동) vs 가격외 요인변화=수요 변화(곡선자체 이동)", "q": "부동산 수요에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산가격 변화에 의한 수요량의 변화는 수요곡선 자체의 이동으로 나타난다.", "부동산가격이 상승하면 수요량은 감소한다.", "소득이 증가할 때 정상재는 수요가 증가한다.", "대체재의 가격이 상승하면 해당 재화의 수요는 증가한다.", "보완재의 가격이 상승하면 해당 재화의 수요는 감소한다."], "ans": 1, "expl": "가격변화에 의한 수요량의 변화는 기존 수요곡선상에서 점이 이동하는 것이다. 수요곡선 자체의 이동은 가격 이외 요인이 변화하는 '수요의 변화'이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_009.m4a"}, {"no": 10, "part": "경제론", "theme": "부동산 공급의 결정요인", "headline": "부동산 공급결정요인", "definition": "부동산 공급의 결정: 가격 외에도 생산요소가격·기술수준·금리 등 다양한 요인의 영향", "bullets": ["공급법칙: 가격과 공급량은 비례(우상향곡선)", "생산요소가격(건축비 등) 상승→공급감소", "기술수준 향상→공급증가", "금리인상→공급감소, 조세인상→공급감소"], "tip": "토지는 물리적공급 불가, 경제적공급(집약적 이용 등)만 가능", "q": "부동산 공급에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산가격이 상승하면 공급량은 증가한다.", "건축비 등 생산요소의 가격이 상승하면 공급은 감소한다.", "금리가 상승하면 자본비용이 높아져 공급이 감소한다.", "토지는 부증성으로 인해 물리적 공급이 가능하다.", "조세가 인상되면 부동산 공급은 감소한다."], "ans": 4, "expl": "토지는 부증성으로 인해 물리적 공급이 불가능하며, 토지이용의 집약화 등을 통한 경제적 공급만 가능하다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_010.m4a"}, {"no": 11, "part": "경제론", "theme": "부동산시장의 균형과 가격결정", "headline": "균형가격의 결정과 이동", "definition": "부동산가격의 결정: 수요곡선과 공급곡선이 교차하는 균형점", "bullets": ["균형점보다 높은 가격: 초과공급→가격하락압력", "균형점보다 낮은 가격: 초과수요→가격상승압력", "수요증가·공급불변→가격상승, 거래량증가", "공급증가·수요불변→가격하락, 거래량증가"], "tip": "수요증가+공급감소=가격 무조건 상승 / 수요감소+공급증가=가격 무조건 하락(거래량은 불확실)", "q": "부동산시장의 균형가격에 관한 설명으로 옳지 않은 것은?", "choices": ["균형가격은 수요곡선과 공급곡선이 교차하는 점에서 결정된다.", "수요가 증가하고 공급이 불변이면 균형가격은 상승하고 거래량은 증가한다.", "수요와 공급이 동시에 증가하면 거래량은 증가한다.", "공급이 증가하고 수요가 불변이면 균형가격은 상승하고 거래량은 감소한다.", "균형가격보다 높은 가격에서는 초과공급이 발생하여 가격 하락압력이 존재한다."], "ans": 4, "expl": "공급이 증가하고 수요가 불변이면 초과공급이 발생하여 균형가격은 하락하고 거래량은 증가한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_011.m4a"}, {"no": 12, "part": "경제론", "theme": "부동산 수요·공급의 가격탄력성", "headline": "수요의 가격탄력성", "definition": "수요의 가격탄력성: 가격변동률 대비 수요량변동률의 비율, 부동산 종류별로 크기 상이", "bullets": ["탄력성>1: 탄력적(사치품), <1: 비탄력적(필수품)", "대체재 많고 용도 다양·기간 길수록 탄력적", "주거용>상업용·공업용(대체공간 넓어 더 탄력적)", "세분화될수록(단독주택,아파트 등) 탄력성 커짐"], "tip": "탄력적일 때 가격상승→총수입감소 / 비탄력적일 때 가격상승→총수입증가", "q": "부동산 수요의 가격탄력성에 관한 설명으로 옳지 않은 것은?", "choices": ["주거용 부동산은 상업용·공업용 부동산보다 대체재가 적어 더 비탄력적이다.", "수요의 가격탄력성이 1보다 크면 탄력적이라고 한다.", "일반적으로 재화의 용도가 다양할수록 탄력적이다.", "수요가 탄력적인 경우 가격이 상승하면 기업의 총수입은 감소한다.", "부동산을 종류별로 세분화할수록 수요의 가격탄력성은 커지는 경향이 있다."], "ans": 1, "expl": "주거용 부동산은 상업용·공업용 부동산보다 대체공간이 넓어 더 탄력적이다. 상업용·공업용 부동산이 지역적·국지적 영향을 더 많이 받아 대체재가 적고 비탄력적이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_012.m4a"}, {"no": 13, "part": "경제론", "theme": "부동산 경기변동의 개념과 국면", "headline": "부동산경기의 순환국면", "definition": "부동산경기의 순환국면: 회복-상향-후퇴-하향시장의 4국면 + 부동산 특유의 안정시장", "bullets": ["회복시장: 매도자중시로 전환, 가격상승 시작", "상향시장: 매도자주도(Seller's Market), 거래활발", "후퇴시장: 매도자중시→매수자중시 전환", "하향시장: 매수자주도(Buyer's Market), 공실률 증가"], "tip": "안정시장은 부동산시장에만 있는 고유국면(불황에 강한 소규모주택·도심부동산)", "q": "부동산경기의 순환국면에 관한 설명으로 옳지 않은 것은?", "choices": ["하향시장에서는 매도자가 주도하는 시장(Seller's Market) 현상이 나타난다.", "회복시장에서는 매수자 중시에서 매도자 중시 현상으로 바뀐다.", "상향시장에서는 매도자가 주도하는 시장(Seller's Market) 현상이 나타난다.", "후퇴시장에서는 매도자 중시에서 매수자 중시로 바뀐다.", "안정시장은 불황에 강한 부동산시장 특유의 국면이다."], "ans": 1, "expl": "하향시장에서는 매수자가 주도하는 시장(Buyer's Market) 현상이 커진다. 매도자 주도 현상은 상향시장의 특징이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_013.m4a"}, {"part": "경제론", "theme": "부동산 경기변동의 유형(계절적·장기적·무작위적 변동)", "headline": "경기변동의 다른 유형들", "definition": "부동산 경기변동의 유형: 순환적 변동 외에 계절적 변동·장기적(추세) 변동·무작위적(불규칙) 변동", "bullets": ["계절적변동: 이사철 등 역일·풍속·관습의 영향에 따른 주기적 변동", "장기적변동(추세변동): 50년 이상 장기간, 지역개발·재개발시 발생", "무작위적변동(불규칙변동): 지진·홍수·전쟁 등 예기치 못한 요인", "부동산경기 장기변동은 일반경기 변동보다 기간 길고 지역적으로 불규칙"], "tip": "계·장·무 3유형 + 순환적변동(국면) = 경기변동의 4대 유형", "q": "부동산 경기변동의 유형에 관한 설명으로 옳지 않은 것은?", "choices": ["계절적 변동은 이사철 등 역일이나 풍속·관습의 영향으로 나타나는 경기변동이다.", "부동산경기의 장기변동은 일반적으로 일반경제의 변동보다 기간이 길고 지역적으로 규칙적으로 나타난다.", "장기적 변동은 통상 50년 이상의 기간으로 측정되며 추세변동이라고도 한다.", "무작위적 변동은 지진, 홍수, 전쟁 등 예기치 못한 사태로 인해 초래되는 비주기적 변동이다.", "장기적 변동은 어떤 지역이 새로 개발되거나 기존 지역이 재개발될 때 나타날 수 있다."], "ans": 2, "expl": "부동산경기의 장기변동은 일반경제의 변동보다 기간이 길고 지역적으로 불규칙하게 나타나는 특징이 있다.", "no": 14, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_014.m4a"}, {"part": "경제론", "theme": "거미집이론(Cob-web Theory)", "headline": "거미집이론", "definition": "거미집이론: 수요·공급의 시차를 고려해 가격이 균형에 접근하는 과정을 설명하는 동태적 이론(에치켈이 농산물가격의 순환적 변동을 이론화)", "bullets": ["수요는 금기가격에, 공급은 전기가격에 반응(시차)", "수렴형: 수요 가격탄력성>공급 가격탄력성 (기울기는 반대로 공급기울기>수요기울기)", "발산형: 공급 가격탄력성>수요 가격탄력성 (기울기는 반대로 수요기울기>공급기울기)", "순환형: 수요탄력성=공급탄력성(기울기도 동일)", "실제 시장에서는 공급자가 미래가격을 예측하며 행동하므로 완전히 들어맞지는 않는 한계가 있음"], "tip": "'수탄수(수요탄력적→수렴)' vs '공탄발(공급탄력적→발산)', 기울기는 탄력성과 반대관계임에 유의", "q": "거미집이론(Cob-web Theory)에 관한 설명으로 옳지 않은 것은?", "choices": ["금기의 수요량은 금기가격의 함수이고, 금기의 공급량은 전기가격의 함수라고 가정한다.", "수요의 가격탄력성이 공급의 가격탄력성보다 크면 수렴형이 된다.", "거미집이론은 주로 주거용 부동산에 더 잘 적용되는 이론이다.", "공급의 가격탄력성이 수요의 가격탄력성보다 크면 발산형이 된다.", "수요와 공급의 가격탄력성이 같으면 순환형이 된다."], "ans": 3, "expl": "거미집이론에 따른 주기적 가격변동 현상은 생필품적 성격의 주거용 부동산보다 상업용·공업용 부동산에 더 잘 적용된다.", "no": 15, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_015.m4a"}, {"no": 16, "part": "시장론", "theme": "부동산시장의 개념과 특성", "headline": "부동산시장의 특성", "definition": "부동산시장의 성격: 부동산 특성으로 인해 완전경쟁시장이 아닌 불완전경쟁시장", "bullets": ["시장의 국지성: 부동성·개별성에 기인, 지역시장화", "거래의 비공개성: 정보유통 불완전", "수급조절 곤란성: 공급의 비탄력성", "매매의 장기성, 중개업자 개입 필요성"], "tip": "불완전경쟁시장이지만 독과점시장은 아님", "q": "부동산시장의 특성에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산시장은 거래정보가 완전히 공개되어 정보의 불완전성이 없다.", "부동산시장은 부동성과 개별성으로 인해 시장이 국지화되는 경향이 있다.", "부동산은 수요와 공급이 비탄력적이어서 단기적으로 가격왜곡이 발생할 가능성이 높다.", "부동산 거래에는 탐색, 계약체결 등 여러 절차가 필요하여 매매기간이 장기화되는 경향이 있다.", "부동산시장은 매도인과 매수인의 직접 참여가 곤란하여 중개업자의 개입이 필요하다."], "ans": 1, "expl": "부동산시장은 개별성·다액자금 필요성·행정적 규제 등으로 거래내용의 공개가 저해되어 정보유통이 불완전하다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_016.m4a"}, {"no": 17, "part": "시장론", "theme": "디파스퀄리-위튼(4사분면) 모형", "headline": "4사분면 모형", "definition": "디파스퀄리-위튼 모형: 공간시장·자산시장·건설(개발)시장의 유기적 상호작용을 설명하는 4사분면 모형", "bullets": ["공간시장(1사분면): 임대시장, 균형임대료·점유율 결정", "자산시장(2사분면): 부동산가격 결정", "건설시장(3사분면): 개발이익 있으면 개발결정", "4사분면: 장기적으로 부동산 재고량 변화"], "tip": "공간시장='빌리는 시장', 자산시장='사고파는 시장'", "q": "디파스퀄리-위튼(DiPasquale & Wheaton)의 4사분면 모형에 관한 설명으로 옳지 않은 것은?", "choices": ["공간시장에서는 균형임대료와 점유율이 결정된다.", "임대료와 자본환원율에 따라 자산가격이 결정된다.", "건설(개발)시장에서는 개발비용이 시가보다 낮아 개발이익이 발생하면 개발이 이루어진다.", "자산시장은 공간을 사고파는 시장이 아니라 공간을 빌리고 빌려주는 임대시장을 의미한다.", "공간시장의 임대수요는 주로 지역 및 국가경제 상황에 크게 영향을 받는다."], "ans": 4, "expl": "공간을 빌리고 빌려주는 임대시장은 '공간시장(1사분면)'이다. 자산시장(2사분면)은 부동산을 자산으로서 사고파는 시장이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_017.m4a"}, {"no": 18, "part": "시장론", "theme": "효율적 시장이론", "headline": "효율적 시장의 유형", "definition": "효율적시장이론: 새로운 정보가 지체없이 가격에 반영되는 시장, 반영되는 정보범위에 따라 3가지 유형(약성·준강성·강성)", "bullets": ["약성 효율적시장: 과거정보만 반영(기술적분석으로 초과이익 불가)", "준강성 효율적시장: 과거+공표된 현재정보 반영(기본적분석으로 초과이익 불가)", "강성 효율적시장: 과거+현재+미래(내부)정보까지 모두 반영", "어떤 유형이든 정상이윤은 획득 가능"], "tip": "약성=기술적분석, 준강성=기본적분석, 강성=분석불필요(어떤정보로도 초과이익 불가)", "q": "효율적 시장이론에 관한 설명으로 옳지 않은 것은?", "choices": ["약성 효율적 시장은 과거의 역사적 정보가 이미 시장가치에 반영된 시장이다.", "강성 효율적 시장은 과거, 현재, 미래(내부)정보까지 모두 반영된 시장이다.", "준강성 효율적 시장에서는 기본적 분석을 통해 정상 이상의 수익을 획득할 수 있다.", "일반적으로 부동산시장이나 주식시장에서는 강성 효율적 시장은 잘 나타나지 않는다.", "약성 효율적 시장에서 초과이익을 얻었다면 이는 과거 정보가 아닌 현재나 미래 정보에 의한 것이다."], "ans": 3, "expl": "준강성 효율적 시장의 참여자들은 이미 기본적 분석을 하고 있다고 전제되므로, 기본적 분석을 통해서는 정상 이상의 수익(초과이익)을 획득할 수 없다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_018.m4a"}, {"no": 19, "part": "시장론", "theme": "주거분리와 여과현상", "headline": "주거분리와 여과현상", "definition": "여과현상·주거분리: 여과현상은 주택이 소득계층에 따라 상하로 이동하는 현상, 그 결과 고소득층·저소득층의 주거지역이 분리되는 현상이 주거분리", "bullets": ["하향여과: 상위계층 주택이 하위계층에게 전환", "상향여과: 하위계층 주택이 수선·재개발되어 상위계층에게 전환", "침입과 계승: 이질적 요소 침입으로 지역용도 변화", "불량주택문제는 시장실패가 아니라 소득의 문제"], "tip": "하향여과='비싼집이 싸짐', 상향여과='싼집이 비싸짐'", "q": "주거분리와 여과현상에 관한 설명으로 옳지 않은 것은?", "choices": ["하향여과란 상위계층이 사용하던 주택이 하위계층의 사용으로 전환되는 현상이다.", "불량주택문제는 시장실패에 따른 것이므로 정부의 시장개입으로 근본적으로 해결할 수 있다.", "상향여과란 하위계층이 사용하던 주택이 수선·재개발되어 상위계층 사용으로 전환되는 현상이다.", "고소득층 주거지역은 수리·개량비용보다 가치상승분이 클 때 계속 고급주택지역으로 유지된다.", "이질적 요소의 침입으로 한 지역의 토지이용이 다른 종류로 변화되어가는 것을 천이와 계승이라 한다."], "ans": 2, "expl": "불량주택문제는 시장실패가 아니라 소득의 문제로 발생한 것이므로, 철거와 같은 정부의 시장개입만으로는 근본적으로 해결하기 어렵다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_019.m4a"}, {"no": 20, "part": "시장론", "theme": "지대이론", "headline": "지대결정이론", "definition": "지대이론: 지대(토지서비스의 대가)의 결정원리를 설명하는 이론, 학자별 견해 차이 존재", "bullets": ["차액지대설(리카도): 비옥도 차이, 한계지는 지대0", "입지교차지대설(튀넨): 수송비 절약분이 지대화(위치지대)", "절대지대설(마르크스): 토지사유화 자체가 지대발생근거", "지대=유량개념(일정기간), 지가=저량개념(일정시점)"], "tip": "지가=지대/할인율(지대가 영속적인 경우)", "q": "지대이론에 관한 설명으로 옳지 않은 것은?", "choices": ["리카도의 차액지대설에 따르면 한계지에서는 지대가 발생하지 않는다.", "마르크스의 절대지대설은 토지의 비옥도나 위치와 관계없이 토지사유화 자체를 지대발생의 근거로 본다.", "튀넨의 입지교차지대설에 따르면 수송비가 절약될수록 지대는 낮아진다.", "지대는 일정기간을 기준으로 하는 유량개념이고, 지가는 일정시점을 기준으로 하는 저량개념이다.", "지대가 영속적인 경우 지가는 지대를 할인율로 나누어 산정할 수 있다."], "ans": 3, "expl": "튀넨의 입지교차지대설에 따르면 수송비가 절약될수록(중심지에 가까울수록) 지대는 높아진다. 수송비와 지대는 반비례 관계이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_020.m4a"}, {"no": 21, "part": "시장론", "theme": "산업입지이론", "headline": "산업입지이론", "definition": "산업입지이론: 공장 등 산업시설의 최소비용 또는 최대이윤 위치 선정원리", "bullets": ["베버: 최소운송비→노동비절약→집적이익지점 순 검토(비용최소화)", "뢰쉬: 이윤극대화 관점, 시장확대가능성 큰 곳이 최적입지(수요측면)", "뢰쉬는 베버가 생산비에만 치우쳤다고 비판", "원료지향형(중량감소산업) vs 시장지향형(중량증가산업) 구분"], "tip": "베버=비용최소화(공급측), 뢰쉬=이윤극대화(수요측)", "q": "산업입지이론에 관한 설명으로 옳지 않은 것은?", "choices": ["시장지향형 산업은 산출제품의 무게나 부피가 투입원료보다 작은 경우에 주로 나타난다.", "베버의 공업입지론은 최소운송비 지점을 최적입지의 기본으로 본다.", "뢰쉬는 베버의 입지론이 생산비에만 치우쳐 있다고 비판하며 시장확대가능성이 가장 풍부한 곳을 최적입지로 보았다.", "원료지향형 산업은 중량감소산업이나 부패하기 쉬운 원료를 사용하는 공장에서 주로 나타난다.", "그린헛은 한계수익과 한계비용이 일치하는 지점을 최적입지로 보았다."], "ans": 1, "expl": "시장지향형 산업은 산출제품의 무게나 부피가 투입원료보다 큰 경우(중량증가산업 등)에 주로 나타난다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_021.m4a"}, {"no": 22, "part": "시장론", "theme": "상업입지이론", "headline": "상업입지이론(상점분포)", "definition": "상업입지이론: 상점의 최대매출 확보 입지를 설명하는 이론, 공간균배의 원리·점포유형별 입지경향이 대표적", "bullets": ["공간균배원리: 수요탄력성 클수록 분산입지, 작을수록 집심입지", "집심성점포(백화점 등)/집재성점포(은행 등)/산재성점포(목욕탕 등)", "구매빈도 높을수록 점포밀도 높음(편의품점)", "넬슨 8원칙: 양립성, 집중흡입력 등"], "tip": "상품도달거리: 전문품점>선매품점>편의품점", "q": "상업입지이론에 관한 설명으로 옳지 않은 것은?", "choices": ["공간균배의 원리에 따르면 수요의 탄력성이 클수록 분산입지 경향이 나타난다.", "목욕탕, 이발소와 같은 산재성 점포는 동일업종끼리 한 곳에 모이는 것이 유리하다.", "백화점과 같은 집심성 점포는 도심에서 형성되는 것이 경영상 유리하다.", "전문품점은 편의품점보다 상품의 도달거리가 길다.", "넬슨의 소매입지이론에서 양립성이란 인접점포가 서로 고객을 주고받는 현상을 의미한다."], "ans": 2, "expl": "산재성 점포는 동일업종의 점포가 서로 분산되어야 유리한 점포이다. 동일업종이 한 곳에 모이는 것이 유리한 것은 집재성 점포이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_022.m4a"}, {"no": 23, "part": "시장론", "theme": "크리스탈러의 중심지이론", "headline": "크리스탈러 중심지이론", "definition": "중심지이론: 주변지역에 재화·서비스를 공급하는 중심지의 성립조건과 계층구조 설명", "bullets": ["중심지 성립조건: 최소요구치<재화의 도달범위", "배후지는 경쟁최소화 위해 정육각형 형태로 수렴", "고차중심지일수록 배후지 넓고 수는 적음(피라미드형)", "최소요구치 크기: 전문품점>선매품점>편의품점"], "tip": "시장원리(k=3)/교통원리(k=4)/행정원리(k=7)", "q": "크리스탈러의 중심지이론에 관한 설명으로 옳지 않은 것은?", "choices": ["중심지가 성립하기 위해서는 최소요구치가 재화의 도달범위보다 작아야 한다.", "이상적인 배후지의 형태는 경쟁을 최소화하기 위해 정육각형에 가까워진다.", "최소요구치의 크기는 편의품점이 전문품점보다 크다.", "고차중심지일수록 배후지의 규모가 크고 중심지의 수는 적어진다.", "행정원리(k=7)는 상위중심지의 배후지가 가장 넓게 나타나는 포섭원리이다."], "ans": 3, "expl": "최소요구치의 크기는 전문품점>선매품점>편의품점 순이다. 편의품점은 최소요구치가 가장 작다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_023.m4a"}, {"no": 24, "part": "시장론", "theme": "도시공간(내부)구조이론", "headline": "도시공간구조이론", "definition": "도시공간구조이론: 버제스의 동심원이론, 호이트의 선형이론, 해리스·울만의 다핵심이론 등 도시 내부 토지이용 패턴 설명이론", "bullets": ["동심원이론(버제스): 5개지대(CBD-점이지대-저소득-중산층-통근자)", "선형이론(호이트): 교통망축따라 부채꼴모양 확장, 고급주택은 축 인근", "다핵심이론(해리스·울만): 도시핵이 여러개, 입지조건따라 형성", "동심원이론은 시카고시만 대상 연구로 일반성 결여 비판"], "tip": "동심원=원형(단핵), 선형=부채꼴(축), 다핵심=여러개핵", "q": "도시공간(내부)구조이론에 관한 설명으로 옳지 않은 것은?", "choices": ["버제스의 동심원이론에 따르면 중심업무지구(CBD)를 중심으로 5개의 지대가 동심원 형태로 배열된다.", "해리스와 울만의 다핵심이론에 따르면 도시는 하나의 핵을 중심으로 성장한다.", "호이트의 선형이론에 따르면 고급주택은 교통망의 축에 가까이 입지하는 경향이 있다.", "동심원이론은 시카고시만을 대상으로 한 연구로 도시공간구조에 대한 일반성이 결여되었다는 비판을 받는다.", "선형이론은 도시공간이 교통노선을 따라 부채꼴 모양으로 확대·배치된다고 본다."], "ans": 2, "expl": "해리스와 울만의 다핵심이론에 따르면 도시의 핵심은 하나가 아니라 여러 개이며, 도시는 복수의 핵 주변에서 성장한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_024.m4a"}, {"no": 25, "part": "정책론", "theme": "시장실패와 정부개입 필요성", "headline": "시장실패와 정부개입", "definition": "시장실패: 가격기능이 원활히 작동하지 못해 효율적 자원배분이 이루어지지 못하는 상태(정부개입의 근거)", "bullets": ["시장실패원인: 외부효과, 불완전경쟁, 공공재, 정보비대칭, 규모의경제", "외부경제(정+): 공급곡선불변, 수요곡선우측이동, PIMFY", "외부불경제(부-): 규제시 공급곡선좌상향이동, NIMBY", "정부실패: 정부개입이 오히려 상황 악화시키는 경우"], "tip": "PIMFY(외부경제, 환영) vs NIMBY(외부불경제, 기피)", "q": "시장실패와 정부개입에 관한 설명으로 옳지 않은 것은?", "choices": ["정부가 시장에 개입하면 항상 자원배분이 개선되므로 정부실패는 발생하지 않는다.", "시장실패란 시장의 가격기능이 원활히 작동하지 못해 효율적 자원배분이 이루어지지 못하는 상태이다.", "외부경제가 발생하면 공급곡선은 불변인 채 수요곡선이 우상향으로 이동하는 효과가 나타난다.", "외부불경제를 유발하는 시설에 대해서는 님비(NIMBY)현상이 나타난다.", "공공재는 비경합성과 비배제성을 가지므로 무임승차 문제가 발생하기 쉽다."], "ans": 1, "expl": "정부의 개입이 오히려 자원의 최적배분을 저해하거나 상황을 악화시키는 경우를 정부실패라고 하며, 정보부족, 부적절한 정책수립 등으로 인해 발생할 수 있다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_025.m4a"}, {"no": 26, "part": "정책론", "theme": "부동산정책의 수단", "headline": "부동산정책의 수단", "definition": "토지정책의 수단: 직접개입방식·간접개입방식(시장기능 활용)·토지이용규제방식으로 구분", "bullets": ["직접개입: 토지비축, 토지수용·선매, 공영개발, 공공임대주택", "간접개입: 금융지원, 보조금·부담금, 조세감면", "토지이용규제: 용도지역지구제, 거래허가제, 개발권양도제(TDR)", "분양가상한제는 직접개입, 개발부담금제는 간접개입 수단"], "tip": "직접=정부가 직접 참여/시장참여자 역할 vs 간접=시장기구 틀 유지하며 유도", "q": "부동산정책의 수단에 관한 설명으로 옳지 않은 것은?", "choices": ["토지비축제도는 정부의 직접개입방식에 해당한다.", "각종 보조금이나 부담금 지원은 간접개입방식에 해당한다.", "용도지역지구제는 토지이용을 규제하는 수단에 해당한다.", "분양가상한제는 정부의 직접적 시장개입 수단이다.", "개발부담금제는 정부의 직접적 시장개입 수단이다."], "ans": 5, "expl": "개발부담금제는 정부가 시장기구의 틀을 유지하면서 경제적 동기를 조성하는 간접적 개입수단이다. 직접적 개입수단은 분양가상한제, 토지수용, 공영개발 등이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_026.m4a"}, {"no": 27, "part": "정책론", "theme": "외부효과와 지역지구제", "headline": "외부효과와 지역지구제", "definition": "외부효과: 시장가격에 반영되지 않으면서 제3자에게 의도치 않은 이익·손해를 주는 효과(지역지구제가 대표적 규제수단)", "bullets": ["외부경제: 사적비용>사회적비용, 과소생산, PIMFY", "외부불경제: 사적비용<사회적비용, 과대생산, NIMBY", "대책: 적극적개입(용도지역지구제, 과징금) vs 간접적개입(코오즈정리)", "지역지구제는 부(-)의 외부효과 방지가 주된 목적"], "tip": "외부경제→보조금·조장정책 / 외부불경제→부담금·중과세·규제정책", "q": "외부효과와 지역지구제에 관한 설명으로 옳지 않은 것은?", "choices": ["정(+)의 외부효과가 발생하면 사적 편익이 사회적 편익보다 작아 과소생산이 나타난다.", "부(-)의 외부효과가 발생하는 시설에 대해서는 부담금 부과나 중과세 등의 규제정책을 사용할 수 있다.", "용도지역지구제는 부(-)의 외부효과를 방지하기 위한 대표적인 토지이용규제 수단이다.", "부(-)의 외부효과가 발생하면 사적 비용이 사회적 비용보다 커서 과소생산이 나타난다.", "코오즈의 정리는 재산권이 명확히 설정되면 당사자간 자율적 협상으로 외부효과 문제를 해결할 수 있다는 이론이다."], "ans": 4, "expl": "부(-)의 외부효과가 발생하면 사적 비용이 사회적 비용보다 작아(사적비용<사회적비용) 오히려 과대생산이 나타난다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_027.m4a"}, {"no": 28, "part": "정책론", "theme": "주택문제(주택보급률·PIR 등 지표)", "headline": "주택문제와 지표", "definition": "주택문제의 구분: 양적 문제·질적 문제, 주택보급률·PIR·슈바베지수 등으로 측정", "bullets": ["주택보급률(%)=주택수/가구수×100", "PIR=주택가격/가계연소득(클수록 부담 커짐)", "슈바베지수=주거비/생계비(낮을수록 부담능력 높음)", "필요적 공가: 마찰적·의도적·통계적 공가현상"], "tip": "PIR·슈바베지수 모두 '수치가 클수록 주거비 부담이 크다'", "q": "주택문제와 관련된 지표에 관한 설명으로 옳지 않은 것은?", "choices": ["주택보급률은 주택수를 가구수로 나눈 값에 100을 곱하여 산정한다.", "PIR비율이 클수록 가구의 주택가격 부담능력은 높아진다.", "PIR(Price to Income Ratio)은 주택가격을 가계의 연소득으로 나눈 비율이다.", "슈바베지수는 가구의 생계비 중 주거비가 차지하는 비율을 의미한다.", "저소득계층일수록 일반적으로 슈바베지수가 높게 나타난다."], "ans": 2, "expl": "PIR비율이 클수록 소득 대비 주택가격 부담이 커지므로 주택구입(부담)능력은 오히려 낮아진다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_028.m4a"}, {"no": 29, "part": "정책론", "theme": "임대주택정책", "headline": "임대주택정책", "definition": "임대주택정책: 임대료 규제·임대료 보조가 대표적, 저소득층 주거안정을 위한 정부개입 수단", "bullets": ["임대료상한제: 균형임대료보다 낮게 규제시 초과수요(주택부족) 발생", "임대료규제 부작용: 공급감소, 질적저하, 암시장 형성", "임대료보조: 저소득층 실질소득 증가 효과", "현금보조가 현물(임대료)보조보다 소비자 잉여 더 큼"], "tip": "규제한도>균형임대료→시장에 영향없음 / 규제한도<균형임대료→초과수요 발생", "q": "임대주택정책에 관한 설명으로 옳지 않은 것은?", "choices": ["정부가 규제하는 임대료 상한이 시장의 균형임대료보다 낮으면 초과수요가 발생한다.", "임대료 규제는 장기적으로 임대주택의 공급을 감소시킬 수 있다.", "임대료 규제는 임대주택의 질적 수준을 향상시키는 효과가 있다.", "임대료 보조는 저소득층의 실질소득을 증가시키는 효과가 있다.", "동일한 금액이라면 현금보조가 임대료(가격)보조보다 소비자 잉여를 더 크게 한다."], "ans": 3, "expl": "임대료 규제는 임대인의 투자기피를 유발하여 오히려 임대주택의 질적 수준을 떨어뜨리는 부작용이 있다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_029.m4a"}, {"no": 30, "part": "정책론", "theme": "분양가상한제와 선분양제도", "headline": "분양가상한제·선분양제도", "definition": "분양가상한제·선분양제도: 분양가상한제는 신규주택 분양가격을 시장가보다 낮게 규제하는 제도, 선분양제도는 완공 전 미리 분양하는 방식", "bullets": ["분양가상한제: 공급감소·수요증가로 초과수요(투기유발) 가능", "분양가상한제는 정부의 직접적 시장개입 수단", "선분양: 공급자중심, 건설자금조달 용이, 소비자가 건설자금이자 부담", "후분양: 소비자중심, 상품비교가능, 투기(분양권프리미엄) 축소"], "tip": "선분양='공급자에게 유리', 후분양='소비자에게 유리'", "q": "분양가상한제와 선분양제도에 관한 설명으로 옳지 않은 것은?", "choices": ["분양가상한제로 분양가격이 시장가격보다 낮게 책정되면 초과수요가 발생하여 투기가 유발될 수 있다.", "선분양제도는 건설업자가 민간자금(분양대금)을 조달하기 쉬운 공급자 중심의 제도이다.", "후분양제도는 소비자가 상품을 비교할 수 있어 선택의 폭이 넓어지는 장점이 있다.", "분양가상한제는 정부의 간접적 시장개입 수단에 해당한다.", "선분양제도는 후분양제도에 비해 분양권 프리미엄으로 인한 투기가 발생할 가능성이 크다."], "ans": 4, "expl": "분양가상한제는 정부가 가격을 직접 통제하는 정부의 직접적 시장개입 수단이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_030.m4a"}, {"no": 31, "part": "정책론", "theme": "토지정책수단(비축·개발부담금 등)", "headline": "토지정책의 수단", "definition": "토지정책수단의 구분: 직접개입방식·간접개입방식(시장기능 활용)·토지이용규제방식", "bullets": ["직접개입: 토지비축, 토지수용·선매, 공영개발, 공공임대주택", "간접개입: 금융지원, 보조금·부담금, 조세감면", "토지이용규제: 용도지역지구제, 거래허가제, 개발권양도제(TDR)", "개발부담금제는 개발이익환수제도의 대표적 간접개입 수단"], "tip": "토지비축제(직접개입) vs 개발부담금제(간접개입) 구분 주의", "q": "토지정책의 수단에 관한 설명으로 옳지 않은 것은?", "choices": ["토지비축제도는 정부가 직접 개입하여 토지를 매입·보유하는 직접개입방식이다.", "금융지원이나 보조금 지급은 시장기구의 틀을 유지하는 간접개입방식에 해당한다.", "용도지역지구제는 토지이용을 바람직한 방향으로 유도하는 토지이용규제수단이다.", "개발부담금제는 개발이익을 환수하는 제도로 정부의 직접개입방식에 해당한다.", "공영개발은 정부가 직접 사업주체가 되어 개발이익의 일부를 환수할 수 있는 직접개입방식이다."], "ans": 4, "expl": "개발부담금제는 조세부과와 유사하게 경제적 동기를 조성하는 간접개입방식에 해당한다. 직접개입방식은 토지비축, 토지수용·선매, 공영개발 등이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_031.m4a"}, {"no": 32, "part": "정책론", "theme": "조세부과의 효과(귀착)", "headline": "조세의 전가와 귀착", "definition": "조세의 전가·귀착: 전가는 조세부담을 다른 경제주체에게 이전시키는 것, 귀착은 조세를 최종적으로 누가 부담하는지의 문제", "bullets": ["조세귀착은 수요와 공급의 상대적 탄력성에 따라 결정", "수요 완전비탄력적 → 소비자(임차인)가 전부 부담", "공급 완전비탄력적 → 생산자(임대인)가 전부 부담", "탄력적인 쪽일수록 부담이 작고, 비탄력적인 쪽일수록 부담이 큼"], "tip": "탄력적이면 적게 부담, 비탄력적이면 많이 부담", "q": "조세부과의 효과(귀착)에 관한 설명으로 옳지 않은 것은?", "choices": ["조세의 귀착이란 전가된 실질적인 조세부담을 각 경제주체 중 누가 최종적으로 부담하는지의 문제를 말한다.", "수요가 완전비탄력적인 경우 조세는 전부 소비자(임차인)에게 귀착된다.", "수요가 탄력적일수록 소비자의 조세부담은 커진다.", "공급이 완전비탄력적인 경우 조세는 전부 생산자(임대인)에게 귀착된다.", "토지는 공급이 비탄력적이므로 토지에 대한 조세부과로 인한 자원배분의 왜곡은 일반재화보다 적다."], "ans": 3, "expl": "수요가 탄력적일수록 소비자는 조세를 회피하기 쉬워지므로 소비자의 부담은 오히려 작아진다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_032.m4a"}, {"no": 33, "part": "정책론", "theme": "부동산 취득단계 조세", "headline": "취득단계 조세", "definition": "취득단계 조세: 부동산 취득시 부과되는 조세, 취득세·등록면허세·상속세·증여세 등", "bullets": ["취득세·등록면허세는 지방세, 상속세·증여세는 국세", "취득세는 신고납부방식, 납세의무자는 사실상 취득자", "원시취득(신축·간척 등) vs 승계취득(매매·증여 등) 구분", "취득세는 종가세이며 비례세(일부 누진세도 존재)"], "tip": "취득세·등록면허세=지방세 / 상속세·증여세=국세", "q": "부동산 취득단계의 조세에 관한 설명으로 옳지 않은 것은?", "choices": ["취득세와 등록면허세는 지방세에 해당한다.", "상속세와 증여세는 국세에 해당한다.", "취득세의 납세의무자는 사실상 취득자이다.", "새로 제조된 차량의 취득은 원시취득에 해당한다.", "취득세는 보통징수 방식으로 부과·징수된다."], "ans": 5, "expl": "취득세는 납세의무자가 스스로 신고하고 납부하는 신고납부방식이다. 보통징수 방식은 재산세, 종합부동산세(일반) 등에 해당한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_033.m4a"}, {"no": 34, "part": "정책론", "theme": "부동산 보유단계 조세", "headline": "보유단계 조세", "definition": "보유단계 조세: 부동산 보유기간 중 부과되는 조세, 재산세·종합부동산세가 대표적", "bullets": ["재산세: 지방세, 보통징수, 과세기준일 매년 6월 1일", "종합부동산세: 국세, 인별과세, 누진세율 적용", "재산세 과세대상: 토지·건축물·주택·항공기·선박", "종합부동산세 과세대상: 토지·주택(건축물 제외)"], "tip": "재산세=지방세 vs 종합부동산세=국세, 둘 다 과세기준일은 6월 1일", "q": "부동산 보유단계의 조세에 관한 설명으로 옳지 않은 것은?", "choices": ["재산세는 지방세이며 종합부동산세는 국세이다.", "재산세와 종합부동산세의 과세기준일은 매년 6월 1일이다.", "종합부동산세는 인별로 과세되며 누진세율을 채택하고 있다.", "종합부동산세와 재산세의 과세대상은 완전히 일치한다.", "재산세의 과세대상에는 토지, 건축물, 주택, 항공기, 선박이 포함된다."], "ans": 4, "expl": "재산세는 토지·건축물·주택·항공기·선박을 과세대상으로 하지만, 종합부동산세는 토지와 주택만을 과세대상으로 하므로 두 세목의 과세대상은 일치하지 않는다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_034.m4a"}, {"no": 35, "part": "정책론", "theme": "부동산 처분단계 조세", "headline": "처분단계 조세(양도소득세)", "definition": "처분단계 조세: 부동산 양도소득에 부과되는 국세, 양도소득세가 대표적", "bullets": ["양도소득세는 국세, 신고납부방식, 누진세율(일부) 적용", "과세대상: 부동산, 지상권·전세권·등기된 임차권 등의 양도소득", "지역권 양도소득은 과세대상에서 제외(조세법정주의)", "동결효과(lock-in effect): 양도세 부담으로 처분을 미뤄 거래가 위축되는 현상"], "tip": "지역권 양도소득은 과세 안 됨(조세법정주의로 열거 안 됨)", "q": "부동산 처분단계의 조세에 관한 설명으로 옳지 않은 것은?", "choices": ["양도소득세는 국세이며 신고납부방식으로 납부한다.", "지상권의 양도로 발생하는 소득은 양도소득세의 과세대상이다.", "지역권의 양도로 발생하는 소득은 양도소득세의 과세대상에 해당하지 않는다.", "양도소득세 부담으로 자산 보유자가 처분을 미루는 동결효과가 발생할 수 있다.", "등기된 부동산임차권의 양도로 발생하는 소득은 양도소득세의 과세대상이 아니다."], "ans": 5, "expl": "등기된 부동산임차권의 양도로 발생하는 소득은 양도소득세의 과세대상에 포함된다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_035.m4a"}, {"no": 36, "part": "정책론", "theme": "주요 부동산제도", "headline": "주요 부동산제도", "definition": "주요 부동산제도: 토지거래허가제·분양가상한제·검인계약서제·토지비축제·개발부담금제 등 시행중 제도 + 폐지된 제도", "bullets": ["토지거래허가제: 부동산 거래신고 등에 관한 법률 근거", "분양가상한제: 주택법 근거, 현재 시행 중", "현재 폐지된 제도: 택지소유상한제, 토지초과이득세, 종합토지세, 공한지세", "개발권양도제(TDR)는 우리나라에 도입되지 않은 제도"], "tip": "폐지된 4대 제도 \"택지·초과이득세·종합토지세·공한지세\" 암기", "q": "우리나라의 부동산제도에 관한 설명으로 옳지 않은 것은?", "choices": ["토지거래허가제는 부동산 거래신고 등에 관한 법률에 근거한다.", "분양가상한제는 현재 주택법에 근거하여 시행되고 있다.", "택지소유상한제는 위헌 결정을 받아 현재 폐지된 제도이다.", "개발권양도제(TDR)는 우리나라에 현재 도입되어 있지 않은 제도이다.", "토지초과이득세는 현재까지 시행되고 있는 제도이다."], "ans": 5, "expl": "토지초과이득세는 1998년에 폐지되어 현재 시행되지 않는 제도이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_036.m4a"}, {"no": 37, "part": "투자론", "theme": "부동산투자의 의의와 레버리지효과", "headline": "레버리지 효과", "definition": "레버리지 효과: 타인자본(부채) 이용을 통해 자기자본수익률을 높이거나 낮추는 효과", "bullets": ["정(+)의 레버리지: 지분투자수익률>총투자수익률>차입이자율", "부(-)의 레버리지: 지분투자수익률<총투자수익률<차입이자율", "차입비율이 클수록 레버리지효과와 채무불이행위험 모두 커짐", "투자와 투기는 목적·합리성·생산성 등에서 구분됨"], "tip": "정(+)레버리지: 총수익률>이자율 / 부(-)레버리지: 총수익률<이자율", "q": "부동산투자의 레버리지효과에 관한 설명으로 옳지 않은 것은?", "choices": ["레버리지 효과란 타인자본을 이용하여 자기자본수익률을 높이거나 낮추는 효과를 말한다.", "총투자수익률이 차입이자율보다 높으면 정(+)의 레버리지 효과가 발생한다.", "차입비율이 커질수록 레버리지 효과는 커지지만 채무불이행 위험도 커진다.", "정(+)의 레버리지 효과가 발생하면 지분투자수익률이 총투자수익률보다 낮아진다.", "부(-)의 레버리지 효과가 발생하면 지분투자수익률이 총투자수익률보다 낮아진다."], "ans": 4, "expl": "정(+)의 레버리지 효과가 발생하면 지분투자수익률이 총투자수익률보다 높아진다(지분투자수익률>총투자수익률>차입이자율).", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_037.m4a"}, {"no": 38, "part": "투자론", "theme": "부동산투자의 수익과 위험의 관계", "headline": "투자의 수익과 위험", "definition": "부동산투자의 수익과 위험: 비례관계, 위험이 클수록 더 높은 기대수익률 요구", "bullets": ["위험회피형 투자자는 위험 증가시 더 높은 기대수익률(위험할증률) 요구", "요구수익률=무위험률+위험할증률+예상인플레율", "체계적 위험은 분산투자로 제거 불가, 비체계적 위험은 분산투자로 제거 가능", "총위험=체계적위험+비체계적위험"], "tip": "체계적위험=분산불가 / 비체계적위험=분산가능", "q": "부동산투자의 수익과 위험에 관한 설명으로 옳지 않은 것은?", "choices": ["위험회피형 투자자는 위험이 증가할수록 더 높은 기대수익률을 요구한다.", "요구수익률은 무위험률에 위험할증률과 예상인플레율을 더하여 구성된다.", "다양한 자산으로 구성된 포트폴리오는 체계적 위험을 감소시킬 수 있다.", "총위험은 체계적 위험과 비체계적 위험의 합으로 구성된다.", "무위험률은 투자자 개인의 위험혐오도와 관계없이 결정된다."], "ans": 3, "expl": "분산투자로 감소시킬 수 있는 것은 비체계적 위험이며, 체계적 위험은 어떤 포트폴리오를 구성해도 제거할 수 없다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_038.m4a"}, {"no": 39, "part": "투자론", "theme": "투자위험의 처리기법", "headline": "투자위험의 처리기법", "definition": "투자위험의 처리기법: 위험한 투자 제외, 보수적 예측법, 위험조정할인율법, 민감도분석 등", "bullets": ["위험한 투자를 제외시키는 방법: 안전자산에만 투자", "보수적 예측방법: 최소추계치를 기준으로 투자결정", "위험조정할인율법: 위험이 클수록 높은 할인율 적용(가장 선호)", "민감도(감응도)분석: 투입요소 변화가 NPV·IRR에 미치는 영향 분석"], "tip": "위험처리기법 중 실무에서 가장 선호되는 것은 위험조정할인율법", "q": "투자위험의 처리기법에 관한 설명으로 옳지 않은 것은?", "choices": ["보수적 예측방법은 투자수익을 최대·중간·최소로 추계하여 최대추계치를 기준으로 투자를 결정하는 방법이다.", "위험한 투자안을 투자대상에서 제외시키고 안전한 곳에만 투자하는 방법이 있다.", "위험조정할인율법은 위험한 투자일수록 높은 할인율을 적용하는 방법으로 실무에서 가장 선호된다.", "민감도분석은 투입요소의 변화가 순현가나 내부수익률에 미치는 영향을 분석하는 기법이다.", "위험의 전가는 임대인이 물가상승의 위험을 임차인에게 전가시키는 방법을 말한다."], "ans": 1, "expl": "보수적 예측방법은 최대추계치가 아니라 최소추계치를 기준으로 투자를 결정하는 방법이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_039.m4a"}, {"no": 40, "part": "투자론", "theme": "평균-분산 지배원리", "headline": "평균-분산 지배원리", "definition": "평균-분산 지배원리: 위험 동일시 수익이 큰 투자안, 수익 동일시 위험이 작은 투자안을 선택하는 기준", "bullets": ["위험(분산) 동일시: 기대수익률이 가장 큰 투자안 선택", "기대수익률 동일시: 위험(분산)이 가장 작은 투자안 선택", "수익률과 위험이 모두 다른 투자안 사이에는 적용 불가", "변동계수(CV)=표준편차/기대수익률, 상대적 위험 비교에 사용"], "tip": "동일위험→고수익 선택, 동일수익→저위험 선택", "q": "평균-분산 지배원리에 관한 설명으로 옳지 않은 것은?", "choices": ["위험이 동일한 경우에는 가장 큰 기대수익률을 갖는 투자안이 다른 투자안을 지배한다.", "기대수익률이 동일한 경우에는 가장 작은 위험(분산)을 갖는 투자안이 다른 투자안을 지배한다.", "평균-분산 지배원리는 수익률과 위험이 서로 다른 두 투자안 사이에서도 항상 적용할 수 있다.", "변동계수는 기대수익률 단위당 위험 정도를 나타내는 상대적 위험지표이다.", "변동계수가 작을수록 자료가 평균 주위에 가깝게 분포되어 있음을 의미한다."], "ans": 3, "expl": "평균-분산 지배원리는 수익률과 위험이 각각 다른 투자대안에 대해서는 적용할 수 없다는 한계가 있다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_040.m4a"}, {"no": 41, "part": "투자론", "theme": "부동산 포트폴리오이론", "headline": "부동산 포트폴리오이론", "definition": "포트폴리오이론: 여러 자산에 분산투자하여 비체계적 위험을 줄이는 투자기법 설명이론", "bullets": ["상관계수가 작을수록(음(-)에 가까울수록) 분산효과가 큼", "자산수가 많을수록 비체계적 위험 감소(체계적 위험은 불변)", "효율적 프론티어: 동일위험에서 최대수익, 동일수익에서 최소위험인 포트폴리오 집합", "부동산은 불완전경쟁시장 특성상 포트폴리오이론 적용에 한계 있음"], "tip": "상관계수 -1에 가까울수록 분산효과 최대", "q": "부동산 포트폴리오이론에 관한 설명으로 옳지 않은 것은?", "choices": ["포트폴리오를 구성하는 자산의 수가 많아질수록 비체계적 위험이 감소한다.", "두 자산간 상관계수가 1에 가까울수록 분산투자효과는 커진다.", "효율적 프론티어는 동일한 위험수준에서 최대의 기대수익률을 나타내는 포트폴리오의 집합이다.", "부동산시장은 불완전경쟁시장이므로 시장포트폴리오 수익률을 계량하기 어렵다는 한계가 있다.", "포트폴리오를 구성해도 체계적 위험은 감소하지 않는다."], "ans": 2, "expl": "상관계수는 -1에 가까울수록 분산투자효과가 커지며, 1에 가까울수록 분산효과는 작아진다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_041.m4a"}, {"no": 42, "part": "투자론", "theme": "화폐의 시간가치-일시불계수", "headline": "화폐의 시간가치(일시불계수)", "definition": "화폐의 시간가치: 현재가치와 미래가치가 다르다는 개념, 일시불의 내가계수·현가계수로 환산", "bullets": ["일시불의 내가계수=(1+r)ⁿ, 현재금액을 미래가치로 환산", "일시불의 현가계수=1/(1+r)ⁿ, 미래금액을 현재가치로 환산", "일시불의 내가계수와 현가계수는 서로 역수관계", "할인율(수익률) r이 높을수록, 기간 n이 길수록 현재가치는 작아짐"], "tip": "내가계수↔현가계수는 서로 역수", "q": "화폐의 시간가치(일시불계수)에 관한 설명으로 옳지 않은 것은?", "choices": ["일시불의 내가계수는 현재의 일정금액을 미래가치로 환산할 때 사용한다.", "일시불의 현가계수는 미래의 일정금액을 현재가치로 환산할 때 사용한다.", "일시불의 내가계수와 일시불의 현가계수는 서로 역수관계에 있다.", "할인율이 높아질수록 일시불의 현재가치는 커진다.", "5년 후 1억원을 만들기 위해 현재 예치할 금액은 1억원에 일시불의 현가계수를 곱하여 구한다."], "ans": 4, "expl": "할인율이 높아질수록 미래금액을 현재가치로 환산한 값은 작아진다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_042.m4a"}, {"no": 43, "part": "투자론", "theme": "화폐의 시간가치-연금계수·저당상수", "headline": "연금계수와 저당상수", "definition": "연금계수·저당상수: 연금계수는 매기 일정액(연금)의 미래가치·현재가치를 구하는 계수, 저당상수는 대출원리금 상환액을 구하는 계수", "bullets": ["연금의 내가계수: 매기 1원 적립시 n년 후 총액을 구함", "감채기금계수: 연금의 내가계수의 역수, n년 후 목표금액을 위한 매기 적립액", "연금의 현가계수: 매기 1원씩 받을 연금을 현재 일시불로 환원", "저당상수: 연금의 현가계수의 역수, 원리금균등상환액 계산에 사용"], "tip": "저당상수=연금의 현가계수의 역수, 감채기금계수=연금의 내가계수의 역수", "q": "화폐의 시간가치(연금계수·저당상수)에 관한 설명으로 옳지 않은 것은?", "choices": ["연금의 내가계수는 매기 일정액을 적립했을 때 n년 후의 총액을 구하는 계수이다.", "감채기금계수는 연금의 내가계수의 역수관계에 있다.", "저당상수는 연금의 현가계수의 역수관계에 있다.", "원리금균등상환액은 융자액에 저당상수를 곱하여 구한다.", "연금의 현가계수는 저당상수와 같은 계수이다."], "ans": 5, "expl": "연금의 현가계수와 저당상수는 서로 역수관계에 있는 별개의 계수이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_043.m4a"}, {"no": 44, "part": "투자론", "theme": "영업현금흐름의 계산", "headline": "영업현금흐름의 계산", "definition": "영업현금흐름: 가능총소득 → 순영업소득 → 세전현금흐름 → 세후현금흐름 순으로 산정되는 매기 현금수지", "bullets": ["가능총소득-공실및대손충당금+기타소득=유효총소득", "유효총소득-영업경비=순영업소득(NOI)", "순영업소득-부채서비스액=세전현금흐름(BTCF)", "세전현금흐름-영업소득세=세후현금흐름(ATCF)"], "tip": "영업경비에는 감가상각비·영업소득세·부채서비스액 불포함", "q": "영업현금흐름의 계산에 관한 설명으로 옳지 않은 것은?", "choices": ["영업경비에는 대상부동산의 감가상각비와 부채서비스액의 이자지급분이 포함된다.", "가능총소득에서 공실 및 대손충당금을 차감하고 기타소득을 더하면 유효총소득이 된다.", "유효총소득에서 영업경비를 차감하면 순영업소득이 된다.", "순영업소득에서 부채서비스액을 차감하면 세전현금흐름이 된다.", "세전현금흐름에서 영업소득세를 차감하면 세후현금흐름이 된다."], "ans": 1, "expl": "영업경비에는 수리비, 관리비, 재산세, 보험료 등이 포함되며 감가상각비, 영업소득세, 자본이득세, 부채서비스액은 포함되지 않는다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_044.m4a"}, {"no": 45, "part": "투자론", "theme": "지분복귀액의 계산", "headline": "지분복귀액의 계산", "definition": "지분복귀액: 부동산 매도시 투자자에게 최종 귀속되는 현금수지, 매도가격에서 매도경비·미상환저당잔금·자본이득세 차감하여 산정", "bullets": ["매도가격-매도경비=순매도액", "순매도액-미상환저당잔금=세전지분복귀액", "세전지분복귀액-자본이득세=세후지분복귀액", "매도경비에는 중개수수료·법적수속비 등이 포함"], "tip": "세전지분복귀액=순매도액-미상환저당잔금", "q": "지분복귀액의 계산에 관한 설명으로 옳지 않은 것은?", "choices": ["매도가격에서 매도경비를 차감하면 순매도액이 된다.", "순매도액에서 미상환저당잔금을 차감하면 세전지분복귀액이 된다.", "세전지분복귀액에서 자본이득세를 차감하면 세후지분복귀액이 된다.", "순매도액에서 자본이득세를 먼저 차감한 후 미상환저당잔금을 차감하면 세후지분복귀액이 된다.", "매도경비에는 중개수수료, 법적수속비 등이 포함된다."], "ans": 4, "expl": "지분복귀액은 순매도액에서 미상환저당잔금을 먼저 차감해 세전지분복귀액을 구하고, 그 다음 자본이득세를 차감해 세후지분복귀액을 구하는 순서이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_045.m4a"}, {"no": 46, "part": "투자론", "theme": "부동산투자의 결정과정", "headline": "부동산투자의 결정과정", "definition": "부동산투자결정과정: 투자목적 파악 → 투자환경 분석 → 현금수지 분석 → 투자준거 적용 → 최종 투자결정의 단계", "bullets": ["1단계: 투자자의 목적 파악", "2단계: 투자환경(시장환경) 분석", "3단계: 기대되는 편익과 비용(현금수지) 분석", "4단계: 투자준거 적용 → 기대수익률≥요구수익률이면 투자 채택"], "tip": "목적파악→환경분석→현금수지분석→투자준거적용→투자결정 순서", "q": "부동산투자의 결정과정에 관한 설명으로 옳지 않은 것은?", "choices": ["투자결정과정에서 가장 먼저 이루어져야 하는 것은 투자자의 목적 파악이다.", "기대수익률이 요구수익률보다 낮을 때 투자를 채택한다.", "투자환경 분석 이후 기대되는 편익과 비용을 현금수지로 측정하는 단계가 이어진다.", "분석된 현금수지에 투자준거를 적용하여 투자의 타당성을 판단한다.", "투자가치가 시장가치보다 클 경우 투자를 채택할 수 있다."], "ans": 2, "expl": "기대수익률이 요구수익률보다 높을 때(같거나 클 때) 투자를 채택한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_046.m4a"}, {"no": 47, "part": "투자론", "theme": "비할인법-어림셈법(승수·수익률)", "headline": "어림셈법(승수법·수익률법)", "definition": "어림셈법: 시간가치를 고려하지 않고 한 해 소득 기준으로 투자여부를 판단하는 비할인법, 승수법·수익률법으로 구분", "bullets": ["승수법: 총투자액÷소득(작을수록 유리), 수익률법: 소득÷총투자액(클수록 유리)", "총소득승수=총투자액/유효총소득", "순소득승수(자본회수기간)=총투자액/순영업소득", "세전현금수지승수=지분투자액/세전현금수지"], "tip": "승수는 작을수록, 수익률은 클수록 투자에 유리", "q": "어림셈법(비할인법)에 관한 설명으로 옳지 않은 것은?", "choices": ["어림셈법은 시간가치를 고려하지 않고 한 해의 소득을 기준으로 투자여부를 판단한다.", "승수법에서는 승수의 값이 클수록 투자자에게 유리하다.", "순소득승수는 총투자액을 순영업소득으로 나눈 값으로 자본회수기간을 의미하기도 한다.", "종합자본환원율은 순영업소득을 총투자액으로 나눈 값이다.", "세전현금수지승수는 지분투자액을 세전현금수지로 나눈 값이다."], "ans": 2, "expl": "승수법에서는 승수의 값이 작을수록 자본회수기간이 짧아 투자자에게 유리하다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_047.m4a"}, {"no": 48, "part": "투자론", "theme": "비할인법-비율분석법", "headline": "비율분석법", "definition": "비율분석법: 대부비율·부채비율·부채감당률 등 각종 비율로 투자의 안전성·수익성을 분석하는 비할인법", "bullets": ["대부비율(LTV)=저당부채금액/부동산가치", "부채감당률(DCR)=순영업소득/부채서비스액, 1보다 작으면 상환능력 부족", "채무불이행률=(영업경비+부채서비스액)/유효총소득", "비율분석법은 지표 구성요소 추계 오류시 비율이 왜곡될 수 있다는 한계"], "tip": "부채감당률<1이면 순영업소득이 부채상환에 부족", "q": "비율분석법에 관한 설명으로 옳지 않은 것은?", "choices": ["비율분석법은 시간가치를 반영하여 투자안의 수익성을 정밀하게 분석하는 방법이다.", "대부비율은 부동산가치에 대한 저당부채금액의 비율을 의미한다.", "부채감당률은 순영업소득을 부채서비스액으로 나눈 값이다.", "부채감당률이 1보다 작다는 것은 순영업소득이 부채서비스액을 감당하기에 부족함을 의미한다.", "채무불이행률은 유효총소득 대비 영업경비와 부채서비스액의 합계 비율이다."], "ans": 1, "expl": "비율분석법은 시간가치를 고려하지 않는 비할인법으로, 구성요소 추계의 오류로 비율 자체가 왜곡될 수 있다는 한계를 가진다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_048.m4a"}, {"no": 49, "part": "투자론", "theme": "할인법-순현재가치법(NPV)", "headline": "순현재가치법(NPV법)", "definition": "순현재가치법: 장래 세후소득의 현재가치 합계에서 최초투자비용(지분)의 현가를 차감하여 투자여부를 판단하는 할인현금수지분석법", "bullets": ["순현가≥0이면 투자채택, 순현가<0이면 투자기각", "할인율은 요구수익률(외부수익률) 사용", "세후현금수지 기준으로 계산", "순현가법은 가치가산원칙 성립, 이론적으로 가장 우수한 방법으로 평가"], "tip": "NPV법 할인율=요구수익률(투자자 주관적 기회비용)", "q": "순현재가치법(NPV법)에 관한 설명으로 옳지 않은 것은?", "choices": ["순현가가 0보다 크거나 같으면 투자를 채택한다.", "순현가법에서 할인율은 요구수익률을 사용한다.", "순현가법에서 사용하는 할인율은 투자의 내부수익률이다.", "순현가법은 세후현금수지를 기준으로 계산한다.", "순현가법은 내부수익률법보다 이론적으로 우수하다고 평가된다."], "ans": 3, "expl": "순현가법에서 사용하는 할인율은 투자자의 요구수익률이다. 내부수익률은 순현가를 0으로 만드는 할인율로 내부수익률법에서 사용된다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_049.m4a"}, {"no": 50, "part": "투자론", "theme": "할인법-내부수익률법(IRR)·수익성지수", "headline": "내부수익률법·수익성지수법", "definition": "내부수익률법·수익성지수법: 내부수익률법은 순현가를 0으로 만드는 할인율(내부수익률)과 요구수익률의 비교로 투자결정, 수익성지수법은 현금유입 현가÷현금유출 현가를 기준", "bullets": ["내부수익률≥요구수익률이면 투자채택", "수익성지수(PI)≥1이면 투자채택", "순현가법과 내부수익률법의 투자우선순위가 항상 일치하는 것은 아님", "순현가가 동일한 두 대안 중에서는 수익성지수가 큰 것을 선택"], "tip": "내부수익률=순현가를 0으로, 수익성지수를 1로 만드는 할인율", "q": "내부수익률법과 수익성지수법에 관한 설명으로 옳지 않은 것은?", "choices": ["내부수익률은 순현가를 0으로 만드는 할인율을 의미한다.", "내부수익률이 요구수익률보다 크거나 같으면 투자를 채택한다.", "수익성지수가 1보다 크거나 같으면 투자를 채택한다.", "순현가가 동일한 두 투자대안이 있을 때는 수익성지수가 큰 대안을 선택한다.", "순현가법과 내부수익률법의 투자우선순위는 항상 일치한다."], "ans": 5, "expl": "순현가법과 내부수익률법의 투자우선순위는 항상 일치하는 것은 아니며, 일반적으로 순현가법이 이론적으로 더 우수한 것으로 평가된다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_050.m4a"}, {"no": 51, "part": "투자론", "theme": "세후현금흐름의 계산(영업소득세·자본이득세 반영)", "headline": "세후현금흐름의 계산", "definition": "세후현금흐름: 순영업소득에서 부채서비스액·영업소득세를 차감하여 산정, 투자자에게 실제 귀속되는 현금흐름", "bullets": ["가능총소득→유효총소득→순영업소득→세전현금흐름→세후현금흐름 순으로 계산", "세전현금흐름=순영업소득-부채서비스액", "세후현금흐름=세전현금흐름-영업소득세", "영업소득세=(순영업소득+대체충당금-이자지급분-감가상각액)×세율"], "tip": "세전현금흐름=NOI-부채서비스액 / 세후현금흐름=세전현금흐름-영업소득세", "q": "세후현금흐름의 계산에 관한 설명으로 옳지 않은 것은?", "choices": ["세전현금흐름은 순영업소득에서 부채서비스액을 차감하여 구한다.", "세후현금흐름은 세전현금흐름에서 영업소득세를 차감하여 구한다.", "영업소득세 계산시 부채서비스액 중 이자지급분은 과세소득에서 차감된다.", "감가상각액은 과세소득 계산시 순영업소득에서 차감되는 항목이다.", "영업소득세 계산시 부채서비스액 중 원금상환분도 과세소득에서 차감된다."], "ans": 5, "expl": "부채서비스액 중 원금상환분은 세금에서 공제되지 않는다. 과세소득 계산시 차감되는 것은 이자지급분이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_051.m4a"}, {"no": 52, "part": "금융론", "theme": "부동산금융의 개관", "headline": "부동산금융의 개관(지분·부채·메자닌)", "definition": "부동산금융의 구분: 자금조달방식에 따라 지분금융·부채금융·메자닌금융", "bullets": ["지분금융: 신디케이트·조인트벤처·리츠·주식공모 등 자기자본 조달", "부채금융: 저당금융·신탁금융·MBS·ABS 등 타인자본 조달", "메자닌금융: 신주인수권부사채·전환사채·후순위채권 등 무담보·후순위 성격", "주택소비금융은 장기·저리·분할상환, 주택개발금융은 단기·고리·일시불상환"], "tip": "지분=자기자본조달, 부채=타인자본조달, 메자닌=중간(후순위) 성격", "q": "부동산금융의 자금조달방식에 관한 설명으로 옳지 않은 것은?", "choices": ["신디케이트와 조인트벤처는 지분금융에 해당한다.", "주택개발금융은 주택소비금융과 마찬가지로 장기·저리 대출이 원칙이다.", "저당금융과 주택저당담보증권(MBS)의 발행은 부채금융에 해당한다.", "전환사채와 후순위채권은 메자닌금융에 해당한다.", "주택소비금융은 장기·저리로 이루어지며 주로 분할상환 방식이 사용된다."], "ans": 2, "expl": "주택개발금융(건축대부)은 단기·고리이며 건축단계별로 분할 대출 후 완공시 일시불로 상환하는 방식이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_052.m4a"}, {"no": 53, "part": "금융론", "theme": "저당대출 상환방법-원리금균등상환", "headline": "원리금균등상환방법", "definition": "원리금균등상환방법: 매기 원금+이자 합계(원리금)를 상환기간 동안 동일하게 유지하는 저당대출 상환방식", "bullets": ["원리금균등상환액=대출금×저당상수", "상환초기에는 이자지급분이 많고 원금상환분이 적음", "상환후기로 갈수록 이자지급분 감소, 원금상환분 증가", "대출원금의 50% 상환에는 상환기간의 약 2/3가 경과해야 함"], "tip": "원리금균등상환액=대출금×저당상수(매기 총액 일정)", "q": "저당대출의 원리금균등상환방법에 관한 설명으로 옳지 않은 것은?", "choices": ["원리금균등상환액은 대출금에 저당상수를 곱하여 구한다.", "상환초기에는 원금상환분보다 이자지급분이 더 많다.", "대출원금의 50%를 상환하는 데에는 상환기간의 약 1/3 정도만 경과하면 된다.", "상환후기로 갈수록 이자지급분은 줄어들고 원금상환분은 늘어난다.", "매기간 상환하는 원리금의 총액은 상환기간 동안 동일하다."], "ans": 3, "expl": "대출원금의 50% 정도를 상환하기 위해서는 상환기간의 약 2/3 정도가 지나야 한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_053.m4a"}, {"no": 54, "part": "금융론", "theme": "저당대출 상환방법-원금균등·체증식", "headline": "원금균등상환·체증식상환", "definition": "원금균등상환·체증식상환: 원금균등상환은 원금을 매기 동일하게 상환하는 방식, 체증식상환은 초기 상환액이 낮고 점차 증가하는 방식", "bullets": ["원금균등상환: 원금 고정, 이자·월불입액 감소(체감식)", "원리금균등상환: 월불입액 고정, 원금상환액 증가·이자 감소", "체증식(GPM): 초기 상환액이 이자에도 못 미쳐 부(-)의 상환 발생 가능", "총상환액 크기: 체증식(GPM)>원리금균등(CPM)>원금균등(CAM)"], "tip": "총원리금상환액 크기: 체증식>원리금균등>원금균등", "q": "저당대출 상환방법(원금균등·체증식)에 관한 설명으로 옳지 않은 것은?", "choices": ["원금균등상환방식은 매기 상환하는 원금이 동일하고 이자는 점차 감소한다.", "체증분할상환방식의 초기 상환액은 이자액을 초과하여 원금이 빠르게 감소한다.", "원금균등상환방식은 상환초기의 상환액이 후반기보다 많은 체감식 상환방법이다.", "체증분할상환방식은 초기 상환액이 낮고 시간이 지날수록 점진적으로 증가하는 방식이다.", "대출조건이 동일하다면 총원리금상환액은 체증분할상환이 원금균등상환보다 크다."], "ans": 2, "expl": "체증분할상환방식의 초기 상환액은 이자액에도 미치지 못하여 오히려 부(-)의 상환이 발생한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_054.m4a"}, {"no": 55, "part": "금융론", "theme": "고정금리·변동금리 저당대출 비교", "headline": "고정금리·변동금리 저당대출", "definition": "고정금리·변동금리 저당대출: 고정금리는 대출기간 중 이자율 일정, 변동금리는 시장금리 변동에 따라 이자율 조정", "bullets": ["고정금리: 대출자(금융기관)가 인플레이션(금리)위험 부담", "변동금리: 차입자가 금리위험 부담, 이자율 조정주기 짧을수록 대출자에 유리", "대출일 기준 일반적으로 고정금리가 변동금리보다 이자율 높음", "변동금리방식이 고정금리방식보다 채무불이행위험이 더 큼"], "tip": "위험부담자: 고정금리→대출자 / 변동금리→차입자", "q": "고정금리·변동금리 저당대출에 관한 설명으로 옳지 않은 것은?", "choices": ["고정금리저당대출에서는 예상치 못한 인플레이션 위험을 대출자가 부담한다.", "변동금리방식은 고정금리방식보다 채무불이행위험이 더 작다.", "변동금리저당대출에서는 금리위험을 차입자가 부담한다.", "대출일 기준으로 일반적으로 고정금리가 변동금리보다 이자율이 높다.", "이자율 조정주기가 짧을수록 대출자에게 더 유리하다."], "ans": 2, "expl": "일반적으로 변동금리방식이 고정금리방식보다 채무불이행의 위험이 더 크다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_055.m4a"}, {"no": 56, "part": "금융론", "theme": "역모기지(주택연금) 제도", "headline": "역모기지(주택연금) 제도", "definition": "역모기지: 주택 등을 담보로 대출기간 중 연금형태로 매월 일정액을 지급받고 만기에 청산하는 역연금식 저당대출", "bullets": ["시간이 지날수록 대출잔액이 점차 증가하는 구조(일반대출과 반대)", "일반적으로 비소구(non-recourse)형 대출", "주택연금·농지연금이 공적보증형태로 시행 중", "담보물(주택 등)의 소유권을 대출기관이 갖거나 청산하는 방식"], "tip": "역모기지=대출잔액 점점 증가(일반대출은 감소)", "q": "역모기지(주택연금) 제도에 관한 설명으로 옳지 않은 것은?", "choices": ["역모기지는 대출기간 동안 매월 일정액을 연금형태로 지급받는 방식이다.", "역모기지는 시간이 지남에 따라 대출잔액이 점차 증가하는 구조이다.", "역모기지는 일반적으로 비소구형 대출로 운용된다.", "역모기지는 일반적인 원리금균등상환방식과 마찬가지로 대출잔액이 시간이 지날수록 감소한다.", "현재 우리나라에는 주택연금과 농지연금이 공적보증형태의 역모기지 제도로 시행되고 있다."], "ans": 4, "expl": "역모기지는 대출잔액이 시간이 지날수록 증가하는 구조로, 원금이 점차 감소하는 일반적인 상환방식과는 반대이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_056.m4a"}, {"no": 57, "part": "금융론", "theme": "저당의 유동화 개념과 구조", "headline": "저당의 유동화", "definition": "저당의 유동화: 저당권을 상품화하여 유통시켜 대출기관의 장기대출자금 조기회수를 가능케 하는 제도, 1차 저당시장·2차 저당시장으로 구성", "bullets": ["1차 저당시장: 차입자와 대출기관 간 저당이 설정되는 소매금융시장", "2차 저당시장: 대출기관과 기관투자자 간 저당을 유동화하는 도매금융시장", "저당유동화로 대출기관의 유동성위험 감소, 자금의 장기고정화 완화", "저당수익률 구조: 원대출채권수익률>저당담보증권수익률>투자자요구수익률"], "tip": "1차시장=소매(설정) / 2차시장=도매(유동화)", "q": "저당의 유동화 개념과 구조에 관한 설명으로 옳지 않은 것은?", "choices": ["1차 저당시장은 차입자와 저당대출기관 사이에 저당이 설정되는 시장이다.", "2차 저당시장은 저당대출기관과 다른 기관투자자들 사이에 형성되는 시장이다.", "저당의 유동화는 대출기관의 유동성위험을 감소시키는 효과가 있다.", "저당수익률의 구조상 원대출채권의 수익률이 저당담보증권의 수익률보다 낮아야 유동화가 원활하다.", "대출기관은 특수목적회사(SPC)를 설립하여 저당을 유동화할 수 있다."], "ans": 4, "expl": "저당유동화가 원활히 이루어지려면 원대출채권의 수익률(1차 저당시장)이 저당담보증권의 수익률(2차 저당시장)보다 높아야 하며, 저당담보증권의 수익률은 다시 투자자의 요구수익률보다 높아야 한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_057.m4a"}, {"no": 58, "part": "금융론", "theme": "주택저당증권(MBS)의 종류", "headline": "주택저당증권(MBS)의 종류", "definition": "MBS: 주택저당채권을 기초로 발행하는 증권, 이체증권(MPTS)·저당담보채권(MBB)·지불이체채권(MPTB)·다계층증권(CMO)으로 구분", "bullets": ["MPTS: 원리금수취권·저당권 모두 투자자에게 이전(지분증권), 콜방어 불가능", "MBB: 원리금수취권·저당권 모두 발행기관 보유(채권), 콜방어 가능, 투자자위험 최소", "MPTB: 저당권은 발행기관, 원리금수취권은 투자자(MBB+MPTS 혼합)", "CMO: 트랜치별로 이자율·상환순서 다르게 설계, 증권+채권 혼합성격"], "tip": "MPTS=지분·콜방어불가 / MBB=채권·콜방어가능(투자자 위험 최소)", "q": "주택저당증권(MBS)의 종류에 관한 설명으로 옳지 않은 것은?", "choices": ["MPTS는 원리금수취권과 저당권이 모두 투자자에게 이전되는 지분증권 성격을 갖는다.", "MBB는 발행기관이 원리금수취권과 저당권을 모두 보유하며 투자자의 위험이 가장 작다.", "MPTB는 저당권은 발행기관이 보유하고 원리금수취권은 투자자에게 이전되는 혼합형 증권이다.", "MPTS는 발행기관이 콜방어를 실현할 수 있어 MBB보다 투자자의 위험이 작다.", "CMO는 트랜치별로 이자율과 원금 지급순서가 상이하게 설계된 다계층증권이다."], "ans": 4, "expl": "MPTS는 조기상환위험(콜위험)을 투자자가 부담하며 콜방어가 불가능하다. 콜방어가 가능하여 투자자 위험이 가장 작은 것은 MBB이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_058.m4a"}, {"no": 59, "part": "금융론", "theme": "부동산투자회사(REITs)의 개념과 종류", "headline": "부동산투자회사(REITs)", "definition": "부동산투자회사(REITs): 자산을 부동산에 투자·운용하는 것을 주된 목적으로 설립된 회사, 자기관리·위탁관리·기업구조조정 리츠로 구분", "bullets": ["자기관리REITs: 자산운용 전문인력을 상근으로 두고 직접 투자·운용", "위탁관리REITs: 자산의 투자·운용을 자산관리회사에 위탁, 직원·상근임원 불가", "기업구조조정REITs: 기업구조조정 부동산 대상, 자산관리회사에 위탁", "자본금 요건: 자기관리 5억원 이상, 위탁관리·기업구조조정 3억원 이상(설립시)"], "tip": "자기관리=직접운용(상근인력) / 위탁관리·기업구조조정=자산관리회사에 위탁", "q": "부동산투자회사(REITs)의 개념과 종류에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산투자회사는 자산을 부동산에 투자하여 운용하는 것을 주된 목적으로 설립된 회사이다.", "자기관리부동산투자회사는 자산운용 전문인력을 포함한 임직원을 상근으로 두고 직접 투자·운용을 수행한다.", "위탁관리부동산투자회사는 본점 외에 지점을 두고 직원을 고용할 수 있다.", "위탁관리부동산투자회사는 자산의 투자·운용을 자산관리회사에 위탁한다.", "기업구조조정부동산투자회사는 기업구조조정 부동산을 대상으로 투자한다."], "ans": 3, "expl": "위탁관리부동산투자회사와 기업구조조정부동산투자회사는 본점 외의 지점을 둘 수 없고, 직원을 고용하거나 상근임원을 둘 수 없다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_059.m4a"}, {"no": 60, "part": "금융론", "theme": "리츠(REITs)의 특징과 규제동향", "headline": "리츠의 특징과 자산운용규제", "definition": "REITs의 규제: 총자산 중 부동산 비중, 이익의 대부분 배당 의무 등 자산운용상 각종 규제", "bullets": ["최저자본금준비기간 경과 후 총자산의 80% 이상 부동산·부동산관련증권·현금으로 구성(부동산 70%↑)", "이익배당한도의 90% 이상을 주주에게 배당", "차입금 및 사채발행은 자기자본의 2배를 초과할 수 없음", "REITs 도입으로 부동산시장의 투명성 제고, 부동산투기 차단 효과 기대"], "tip": "배당비율 90%↑ / 부동산비중 70%↑(총자산 중 부동산+증권+현금 80%↑)", "q": "부동산투자회사(REITs)의 특징과 자산운용규제에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산투자회사는 최저자본금준비기간이 끝난 후 매 분기말 총자산의 80% 이상을 부동산, 부동산관련증권 및 현금으로 구성하여야 한다.", "부동산투자회사는 해당 연도 이익배당한도의 90% 이상을 주주에게 배당하여야 한다.", "부동산투자회사는 주주 보호를 위해 이익배당한도 전액을 이익준비금으로 적립하여야 한다.", "부동산투자회사의 차입금 및 사채발행은 자기자본의 2배를 초과할 수 없다.", "부동산투자회사 도입으로 부동산시장의 투명성이 제고되고 부동산투기 차단 효과가 기대된다."], "ans": 3, "expl": "부동산투자회사는 이익배당한도의 90% 이상을 주주에게 배당하며 별도의 이익준비금은 적립하지 않는다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_060.m4a"}, {"no": 61, "part": "금융론", "theme": "프로젝트 파이낸싱(PF)의 특징", "headline": "프로젝트 파이낸싱(PF)", "definition": "프로젝트 파이낸싱(PF): 사업 자체의 수익성·현금흐름을 담보로 자금을 조달하는 금융기법, 비소구 또는 제한소구 방식(대출원리금 상환의무 제한)", "bullets": ["프로젝트회사(SPC)가 차입주체가 되어 법적으로 사업주와 신용절연", "대출기관 위험이 커서 이자율이 높은 편", "사업주 대차대조표에 부채로 계상 안됨(부외금융), 채무수용능력 제고", "다양한 이해관계자의 참여로 위험 분산되나 사업진행 속도는 느림"], "tip": "PF=비소구·제한소구금융, 부외금융(off-balance)", "q": "프로젝트 파이낸싱(PF)에 관한 설명으로 옳지 않은 것은?", "choices": ["프로젝트 파이낸싱은 사업 자체의 수익성과 현금흐름을 담보로 자금을 조달하는 방식이다.", "프로젝트 파이낸싱은 대출원리금 상환의무가 제한되는 비소구 또는 제한소구금융의 성격을 가진다.", "대출기관이 부담하는 위험이 크기 때문에 일반대출보다 이자율이 높은 편이다.", "다양한 이해관계자가 참여하여 위험을 분산시킬 수 있지만 사업진행 속도는 느려질 수 있다.", "프로젝트회사가 부담하는 채무는 사업주(스폰서)의 대차대조표에 부채로 계상된다."], "ans": 5, "expl": "프로젝트 파이낸싱은 사업주의 대차대조표에 차입금이 부채로 계상되지 않는 부외금융(off-balance sheet financing)의 특징을 가진다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_061.m4a"}, {"part": "금융론", "theme": "지분금융·부채금융·메자닌금융", "headline": "부동산금융의 3대 분류", "definition": "부동산금융의 3대 분류: 자기자본 조달 지분금융, 타인자본 조달 부채금융, 중간적 성격의 메자닌금융", "bullets": ["지분금융: 신디케이트·조인트벤처·리츠(REITs)·주식 공모(사모)·간접투자펀드", "부채금융: 저당금융·신탁증서금융·회사채·주택저당담보증권(MBS)·자산유동화증권(ABS)", "메자닌금융: 신주인수권부사채(BW)·전환사채(CB)·교환사채(EB)·후순위채권·상환우선주", "메자닌금융은 무담보·후순위 성격으로 부채와 지분의 중간적 자금조달방법"], "tip": "지분=자기자본 조달, 부채=타인자본 조달, 메자닌=그 중간(후순위채 성격)", "q": "부동산금융의 조달방식에 관한 설명으로 옳지 않은 것은?", "choices": ["주택저당담보증권(MBS)과 자산유동화증권(ABS)은 지분금융에 해당한다.", "신디케이트(syndicate)와 조인트벤처(joint venture)는 지분금융에 해당한다.", "저당금융과 신탁증서금융은 부채금융에 해당한다.", "메자닌금융(mezzanine financing)은 부채방식과 지분방식의 특징을 함께 갖는 중간적 성격의 자금조달방법이다.", "신주인수권부사채(BW), 전환사채(CB)는 메자닌금융의 예로 볼 수 있다."], "ans": 1, "expl": "주택저당담보증권(MBS)과 자산유동화증권(ABS)은 저당권 설정이나 채권 발행을 통해 타인자본을 조달하는 부채금융에 해당한다.", "no": 62, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_062.m4a"}, {"no": 63, "part": "금융론", "theme": "자산유동화증권(ABS)", "headline": "자산유동화증권(ABS)", "definition": "자산유동화증권(ABS): 저당대부·신용카드채권 등 현금수지가 보장되는 자산을 담보로 발행하는 부채증권(주택저당채권은 MBS로 유동화)", "bullets": ["기초자산(현금흐름 보장 자산)을 담보로 발행하는 부채증권", "자산보유자는 유리한 금리로 자금조달 가능(재무구조 개선)", "기초자산이 담보가 되어 투자자에게 비교적 안전한 투자대상", "ABCP(자산유동화기업어음)는 만기가 짧아 PF 자금조달에 활용"], "tip": "ABS 중 주택저당채권을 기초로 한 것이 MBS", "q": "자산유동화증권(ABS)에 관한 설명으로 옳지 않은 것은?", "choices": ["자산유동화증권은 현금수지가 보장되는 자산을 담보로 발행하는 부채증권이다.", "ABCP는 만기가 긴 특성 때문에 프로젝트파이낸싱(PF) 분야의 자금조달에는 활용되지 않는다.", "자산보유자는 자산유동화를 통해 금융기관 차입보다 유리한 금리로 자금을 조달할 수 있다.", "자산유동화증권은 기초자산이 담보가 되므로 투자자에게 비교적 안전한 투자대상이 된다.", "주택저당채권을 기초로 발행되는 자산유동화증권을 MBS라 한다."], "ans": 2, "expl": "ABCP(자산유동화기업어음)는 비교적 만기가 짧은 상품으로 프로젝트파이낸싱(PF) 분야의 자금조달 방법으로 널리 활용되고 있다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_063.m4a"}, {"no": 64, "part": "금융론", "theme": "기타 부동산금융상품(P2P 등)", "headline": "기타 부동산금융상품", "definition": "기타 부동산금융상품: PF·신디케이트·ABS 외 부동산펀드, P2P금융 등 다양한 자금조달 방식", "bullets": ["부동산펀드는 투자신탁(수익증권)과 투자회사(뮤추얼펀드) 형태로 구분", "투자신탁의 투자자 지위는 수익자, 투자회사의 투자자 지위는 주주", "P2P금융: 온라인 플랫폼을 통해 다수 개인투자자로부터 자금을 모아 부동산에 대출·투자", "최근 금융플랫폼을 활용한 새로운 부동산금융상품이 확대되는 추세"], "tip": "투자신탁=수익자·수익증권 / 투자회사=주주·주식", "q": "기타 부동산금융상품에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산펀드는 투자신탁(수익증권)과 투자회사(뮤추얼펀드)의 법적 형태로 구분된다.", "투자신탁에서 투자자의 지위는 수익자이며 투자지분은 수익증권으로 표시된다.", "부동산펀드와 P2P금융은 최근 금융환경 변화와 무관하게 이용이 감소하는 추세이다.", "투자회사에서 투자자의 지위는 주주이며 투자지분은 주식으로 표시된다.", "P2P금융은 온라인 플랫폼을 통해 다수의 개인투자자로부터 자금을 모아 부동산에 투자·대출하는 방식이다."], "ans": 3, "expl": "최근 금융플랫폼의 발달로 부동산펀드, P2P금융 등을 통한 부동산금융상품 이용이 오히려 확대되는 추세이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_064.m4a"}, {"no": 65, "part": "관리개발", "theme": "부동산이용활동과 인접지 문제", "headline": "부동산이용과 인접지 문제", "definition": "인접지 문제: 부동성 등 특성으로 인한 경계문제, 협동적 이용의 필요성 등", "bullets": ["부동성에서 파생: 경계문제, 협동적 이용 필요성 발생", "부동산활동은 인접지역과의 지역분석이 필수적으로 요구됨", "용도의 다양성으로 인접토지 간 용도상 대체가능성 존재", "인접지 문제는 외부효과(정/부)와도 밀접하게 관련됨"], "tip": "부동성→경계문제·지역분석 필요성 파생", "q": "부동산이용활동과 인접지 문제에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산의 인접지 문제(경계문제)는 토지의 부동성에서 파생되는 특성이다.", "부동산은 인접성으로 인해 협동적 이용의 필요성이 발생한다.", "인접지 문제는 외부효과와는 무관하게 발생하는 독립적인 현상이다.", "부동산활동에서는 대상부동산이 속한 인근지역에 대한 지역분석이 요구된다.", "토지는 용도의 다양성으로 인해 인접토지 간 용도상 대체가능성이 존재한다."], "ans": 3, "expl": "인접지 문제는 인접 토지이용에 따른 정(+) 또는 부(-)의 외부효과와 밀접하게 관련되어 발생한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_065.m4a"}, {"no": 66, "part": "관리개발", "theme": "토지이용의 집약화·입체화 현상", "headline": "토지이용의 집약화·입체화", "definition": "토지이용의 집약화: 좁은 면적의 토지에 자본·노동을 집중투입, 건물 고층화·입체화로 이용도를 높이는 현상", "bullets": ["집약도=투입되는 노동과 자본의 양/단위면적토지", "집약한계(상한선): 한계비용=한계수입 지점, 조방한계(하한선): 총수입=총비용 지점", "규모의 경제·인구밀도 증가·지가상승 등이 집약화 촉진", "도심은 지가↑→자본↑→집약도↑(고층화), 외곽은 지가↓→집약도↓(저층화)"], "tip": "집약한계=상한선(MC=MR) / 조방한계=하한선(TR=TC)", "q": "토지이용의 집약화·입체화 현상에 관한 설명으로 옳지 않은 것은?", "choices": ["토지이용의 집약도는 단위면적의 토지에 투입되는 노동과 자본의 양으로 나타낸다.", "집약한계는 한계비용과 한계수입이 일치하는 지점으로 토지이용 집약도의 상한선이다.", "조방한계는 총수입과 총비용이 일치하는 지점으로 토지이용 집약도의 하한선이다.", "도심지역은 지가가 높아 자본투입이 늘어나므로 토지이용이 집약화되고 건물이 고층화된다.", "규모의 경제, 인구밀도의 증가는 토지이용의 집약화를 저해하는 요인이다."], "ans": 5, "expl": "규모의 경제와 인구밀도의 증가는 토지이용을 집약화시키는 요인이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_066.m4a"}, {"no": 67, "part": "관리개발", "theme": "부동산개발의 개념과 위험", "headline": "부동산개발의 개념과 위험", "definition": "부동산개발: 인간에게 필요한 공간을 창조하는 활동, 법률적 위험·시장위험·비용위험 등 다양한 위험 수반", "bullets": ["워포드: 법률적 위험, 시장위험, 비용위험부담으로 구분", "법률적 위험: 인허가 불확실성, 용도지역제·이용규제 변화 등", "시장위험: 수요·공급·가격의 불확실성(임대·분양 실패 등)", "흡수율이 높을수록 시장위험 감소, 선분양시 시장위험 낮고 분양가는 낮음"], "tip": "법률적·시장·비용위험(워포드) 3대 개발위험", "q": "부동산개발의 개념과 위험에 관한 설명으로 옳지 않은 것은?", "choices": ["워포드는 부동산개발의 위험을 법률적 위험부담, 시장위험부담, 비용위험부담으로 구분하였다.", "법률적 위험부담에는 행정인허가의 불확실성이나 용도지역제 변화 등이 포함된다.", "흡수율분석을 통한 흡수율이 높을수록 개발사업의 시장위험은 감소한다.", "선분양방식은 후분양방식보다 일반적으로 시장위험이 낮고 분양가가 낮은 경향이 있다.", "이미 이용계획이 확정된 토지를 구입하면 법률적 위험이 오히려 커진다."], "ans": 5, "expl": "이미 이용계획이 확정된 토지를 구입하는 경우에는 법률적 위험이 최소화된다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_067.m4a"}, {"no": 68, "part": "관리개발", "theme": "부동산개발의 방식(자체·지주공동)", "headline": "부동산개발방식(자체·지주공동)", "definition": "부동산개발방식의 구분: 토지소유자 직접시행의 자체개발사업, 토지소유자·개발업자 공동시행의 지주공동사업 등", "bullets": ["자체개발사업: 토지소유자가 직접 기획·자금조달·건설, 이익 전액 귀속되나 위험도 큼", "지주공동사업: 토지소유자(토지)+개발업자(노하우), 위험을 분산하는 장점", "지주공동사업 유형: 공사비대물교환방식, 분양금공사비지급방식, 사업위탁형, 등가교환방식 등", "토지신탁형은 신탁회사에 형식상 소유권 이전 후 개발·관리·처분"], "tip": "자체개발=위험 전부 부담, 지주공동사업=위험 분산", "q": "부동산개발의 방식(자체·지주공동)에 관한 설명으로 옳지 않은 것은?", "choices": ["자체개발사업은 토지소유자가 사업기획과 자금조달을 직접 담당하는 방식이다.", "자체개발사업은 개발이익이 모두 토지소유자에게 귀속되나 사업위험도 크다.", "지주공동사업은 토지소유자와 개발업자가 부동산개발의 위험을 분산할 수 있다는 장점이 있다.", "토지신탁형은 자체개발사업과 마찬가지로 토지소유권이 토지소유자에게 그대로 유지된다.", "공사비 대물교환방식은 토지소유자가 공사대금을 완공된 건물의 일부로 변제하는 방식이다."], "ans": 4, "expl": "토지신탁형은 사업위탁방식과 달리 신탁회사에 형식상의 소유권이 이전된다는 점이 특징이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_068.m4a"}, {"no": 69, "part": "관리개발", "theme": "민간투자사업방식(BTO·BTL 등)", "headline": "민간투자사업방식(BTO·BTL 등)", "definition": "민간투자사업방식: 민간자본 유치를 통한 인프라시설 건설·운영 방식, BTO·BTL·BOT·BOO 등으로 구분", "bullets": ["BTO(건설-양도-운영): 완공 후 정부에 소유권 양도, 민간이 운영하며 이용자에게 사용료 부과", "BTL(건설-양도-임대): 완공 후 소유권 양도, 정부 등에 임대하여 임대료 수취", "BOT(건설-운영-양도): 일정기간 소유·운영 후 계약만료시 정부에 양도", "BOO(건설-소유-운영): 사업시행자가 시설 소유권을 영구히 보유(양도 없음)"], "tip": "BTO=이용자 사용료, BTL=정부 임대료 / BOO=소유권 영구보유", "q": "민간투자사업방식(BTO·BTL 등)에 관한 설명으로 옳지 않은 것은?", "choices": ["BTO 방식은 시설 완공 후에도 소유권을 민간사업자가 계속 보유한다는 점에서 BOO 방식과 동일하다.", "BTO 방식은 시설 완공 후 소유권을 정부에 양도하고 민간사업자가 일정기간 운영하며 사용료를 받는 방식이다.", "BTL 방식은 시설 완공 후 소유권을 정부에 양도하고 정부 등에 임대하여 임대료를 받는 방식이다.", "BOT 방식은 사업시행자가 일정기간 소유권을 가지고 운영한 뒤 계약만료 후 정부에 양도하는 방식이다.", "BOO 방식은 사업시행자가 시설의 소유권을 영구히 보유하며 정부에 양도하지 않는 방식이다."], "ans": 1, "expl": "BTO 방식은 시설 완공 후 소유권을 정부(지방정부)에 양도하는 방식으로, 소유권을 영구히 보유하는 BOO 방식과는 다르다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_069.m4a"}, {"no": 70, "part": "관리개발", "theme": "도시개발사업방식(수용·환지 등)", "headline": "도시개발사업방식(수용·환지)", "definition": "도시개발사업방식의 구분: 공공 매수 후 개발하는 수용방식, 개발 후 원소유자 재분배하는 환지방식, 혼용방식", "bullets": ["수용방식: 공공이 토지를 전면 매수, 개발이익이 원토지소유자에게 귀속되기 어려움", "환지방식: 개발 후 비용·공공용지 제외한 토지를 원소유자에게 재분배, 체비지로 재원 확보", "수용방식은 환지방식보다 사업비 부담이 크고 기반시설 확보가 용이", "환지방식은 수용방식보다 원소유자의 재정착이 쉽고 사업시행자의 매각부담이 적음"], "tip": "수용방식=매수·개발이익 소유자귀속× / 환지방식=재분배·체비지로 재원충당", "q": "도시개발사업방식(수용·환지 등)에 관한 설명으로 옳지 않은 것은?", "choices": ["수용방식은 환지방식에 비해 종전 토지소유자에게 개발이익이 귀속될 가능성이 큰 편이다.", "수용방식은 공공부문이 토지를 전면 매수하여 개발하는 방식이다.", "환지방식은 개발 후 사업비와 공공용지를 제외한 토지를 원토지소유자에게 재분배하는 방식이다.", "개발사업의 재원으로 확보해 놓은 토지를 체비지라고 한다.", "환지방식은 수용방식에 비해 종전 토지소유자의 재정착이 쉬운 편이다."], "ans": 1, "expl": "수용방식은 개발사업 후 종전 토지소유권이 소멸되므로 개발이익이 토지소유자에게 귀속될 가능성이 오히려 작다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_070.m4a"}, {"no": 71, "part": "관리개발", "theme": "부동산관리의 방식(자가·위탁 등)", "headline": "부동산관리 방식(자가·위탁·혼합)", "definition": "부동산관리방식의 구분: 관리주체에 따라 자가관리(소유자 직접)·위탁관리(전문업체)·혼합관리(병용)", "bullets": ["자가관리: 가장 오래된 전통적 방식, 신속한 의사결정·강한 통제력이 장점", "위탁관리: 현대적 전문관리방식, 소유자는 본업에 전념, 전문성 확보 장점", "혼합관리: 자가+위탁 병용, 과도기적 방식이나 책임소재 불분명 단점", "부동산관리 발달순서: 자가관리 → 혼합관리 → 위탁관리"], "tip": "발달순서 자가→혼합→위탁", "q": "부동산관리의 방식(자가·위탁 등)에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산관리는 일반적으로 위탁관리에서 자가관리로 발달해왔다.", "자가관리방식은 관리방식 중 가장 오래된 전통적인 방식이다.", "자가관리방식은 의사결정이 신속하고 소유자의 지시 및 통제권이 강하다는 장점이 있다.", "위탁관리방식은 소유자가 본업에 전념할 수 있고 전문가의 관리서비스를 받을 수 있다는 장점이 있다.", "혼합관리방식은 일부는 자가관리, 일부는 위탁관리를 병용하는 방식이다."], "ans": 1, "expl": "부동산관리는 일반적으로 자가관리에서 혼합관리를 거쳐 위탁관리로 발달해왔다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_071.m4a"}, {"no": 72, "part": "관리개발", "theme": "부동산관리의 영역(시설·자산관리)", "headline": "부동산관리의 영역", "definition": "부동산관리의 세 영역: 시설관리·재산관리(기업관리)·자산관리(가장 중요)", "bullets": ["시설관리: 시설을 운영·유지하는 소극적·기술적 관리", "재산관리(기업관리): 임대차관리 등 일상적 건물운영·관리, 운영수익 극대화 목적", "자산관리: 부동산가치를 증진시키는 적극적 관리, 포트폴리오 관점에서 접근", "관리내용상으로는 법률적 관리, 경제적 관리, 기술적 관리로도 구분"], "tip": "자산관리(가장 적극적)>재산관리>시설관리(가장 소극적)", "q": "부동산관리의 영역(시설·자산관리)에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산관리 세 영역 중 가장 소극적이고 중요도가 낮은 영역은 자산관리이다.", "부동산관리의 영역은 시설관리, 재산관리, 자산관리로 구분할 수 있다.", "시설관리는 시설사용자의 요구에 부응하는 소극적이고 기술적인 측면의 관리이다.", "재산관리는 임대차관리 등 일상적인 건물운영 및 관리를 의미한다.", "자산관리는 부동산의 가치를 증진시키기 위한 방법을 모색하는 적극적 관리를 의미한다."], "ans": 1, "expl": "부동산관리의 세 가지 영역 중 가장 중요하고 적극적인 영역은 자산관리이며, 가장 소극적인 영역은 시설관리이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_072.m4a"}, {"no": 73, "part": "관리개발", "theme": "부동산마케팅 전략(STP)", "headline": "부동산마케팅전략(STP)", "definition": "STP전략: 시장세분화(Segmentation)·표적시장 선정(Targeting)·포지셔닝(Positioning)으로 구성되는 시장점유 마케팅전략", "bullets": ["시장세분화: 수요자집단을 인구·경제적 특성별로 하위시장으로 구분", "표적시장선정: 세분시장 중 공략할 목표고객집단 확인", "포지셔닝: 고객의 마음속에 자사 상품·서비스 이미지를 각인", "시장점유 마케팅전략에는 STP전략과 4P Mix전략이 있음"], "tip": "STP=세분화→표적선정→포지셔닝 순서", "q": "부동산마케팅 전략(STP)에 관한 설명으로 옳지 않은 것은?", "choices": ["STP전략은 시장세분화, 표적시장선정, 포지셔닝의 단계로 구성된다.", "시장세분화는 수요자 집단을 인구·경제적 특성에 따라 하위시장으로 나누는 것이다.", "STP전략은 고객점유 마케팅전략에 해당하며 AIDA원리를 기초로 한다.", "표적시장선정은 세분화된 시장 중 공략할 목표고객집단을 확인하는 단계이다.", "포지셔닝은 표적고객의 마음속에 자사 상품의 이미지를 자리잡게 하는 전략이다."], "ans": 3, "expl": "STP전략은 시장점유 마케팅전략에 해당한다. AIDA원리를 기초로 하는 것은 고객점유 마케팅전략이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_073.m4a"}, {"no": 74, "part": "관리개발", "theme": "부동산마케팅믹스(4P)", "headline": "부동산마케팅믹스(4P)", "definition": "4P Mix전략: 제품·가격·유통경로·판매촉진 4가지 측면의 차별화를 도모하는 시장점유 마케팅전략", "bullets": ["Product(제품전략): 경쟁력 있는 상품(구조물·부대시설 등) 기획", "Price(가격전략): 시가·저가·고가·할인정책 등 소비자 유인 가격 수립", "Place(유통경로): 입지선정과 토지확보, 지역·개별요인 분석", "Promotion(판매촉진): 홍보·광고·인적판매 등 커뮤니케이션 전략"], "tip": "4P=Product·Price·Place·Promotion", "q": "부동산마케팅믹스(4P)에 관한 설명으로 옳지 않은 것은?", "choices": ["4P Mix전략은 제품, 가격, 유통경로, 판매촉진의 측면에서 차별화를 도모하는 전략이다.", "유통경로(Place) 전략은 입지선정과 토지확보에 관한 전략을 포함한다.", "가격전략(Price)에는 시가정책, 저가정책, 고가정책, 할인정책 등이 있다.", "판매촉진전략(Promotion)은 시장세분화와 표적시장 선정을 핵심 내용으로 한다.", "제품전략(Product)은 경쟁력 있는 구조물, 부대시설 등 상품계획에 관한 전략이다."], "ans": 4, "expl": "판매촉진전략(Promotion)은 홍보, 광고, 인적판매 등 커뮤니케이션에 관한 전략이다. 시장세분화와 표적시장 선정은 STP전략의 내용이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_074.m4a"}, {"part": "관리개발", "theme": "임대차의 유형(조·순·비율임대차)", "headline": "임대차 유형 3가지", "definition": "임대차의 유형 구분: 임대료 수준·비용부담 방식에 따라 조(粗)임대차·순임대차·비율임대차", "bullets": ["조임대차: 임차인이 조임대료만 지불, 임대인이 세금·보험료 등 부담(주거용에 적용)", "순임대차: 임차인이 순임대료+영업경비 일부 부담(공업용에 적용, 3차 순임대차가 보편적)", "비율임대차: 임차인 총수입의 일정비율을 임대료로 지불(상업용·매장용에 적용)", "임차인 선정기준도 용도별로 상이: 주거용=연대성, 공업용=적합성, 상업용=수익성"], "tip": "조=주거용(gross), 순=공업용(net), 비율=상업용(percentage)", "q": "부동산 임대차의 유형에 관한 설명으로 옳지 않은 것은?", "choices": ["조임대차는 임차인이 조임대료를 지불하고 임대인이 부동산세금 등 운영비용을 부담하는 방식으로 주거용 부동산에 많이 적용된다.", "순임대차는 임차인이 순수한 임대료 외에 영업경비의 일부를 사전협상에 따라 부담하는 방식으로 공업용 부동산에 많이 적용된다.", "비율임대차는 임차인의 총수입 중 일정비율을 임대료로 지불하는 방식으로 매장용 부동산에 일반적으로 적용된다.", "임차인의 선정기준은 부동산의 용도와 관계없이 항상 수익성을 기준으로 결정된다.", "공업용 부동산에서는 통상 세금·보험료·유지수선비까지 포함하는 3차 순임대차가 보편적으로 적용된다."], "ans": 4, "expl": "임차인의 선정기준은 부동산의 용도에 따라 다르며, 주거용은 연대성, 공업용은 적합성, 상업용(매장용)은 수익성(가능매상고)이 기준이 된다.", "no": 75, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_075.m4a"}, {"no": 76, "part": "관리개발", "theme": "부동산중개계약의 유형", "headline": "부동산중개계약의 유형", "definition": "부동산중개계약의 유형: 의뢰인·중개업자 간 책임·의무 정도에 따라 일반·전속·독점·공동·순가중개계약 등", "bullets": ["일반중개계약: 불특정 다수 중개업자에게 경쟁적으로 의뢰(우리나라에서 가장 일반적)", "전속중개계약: 특정 중개업자에게만 의뢰, 의뢰인이 직접 계약시 수수료 미지급", "독점중개계약: 누가 계약을 성립시켰든 지정 중개업자가 보수를 받음(중개업자에 유리)", "순가중개계약: 의뢰인이 제시한 가격 초과분을 중개업자가 전액 수수료로 취득"], "tip": "전속=직접계약시 수수료 없음 / 독점=누가 계약해도 보수 지급", "q": "부동산중개계약의 유형에 관한 설명으로 옳지 않은 것은?", "choices": ["일반중개계약은 의뢰인이 불특정 다수의 중개업자에게 경쟁적으로 중개를 의뢰하는 방식이다.", "전속중개계약은 의뢰인이 특정한 개업공인중개사 한 명에게만 중개를 의뢰하는 계약이다.", "독점중개계약은 누가 계약을 성립시켰는지에 관계없이 지정된 중개업자가 보수를 받는 방식이다.", "순가중개계약은 의뢰인이 제시한 가격을 초과한 금액을 중개업자가 수수료로 취득하는 방식이다.", "전속중개계약에서 의뢰인이 직접 거래를 성사시킨 경우에도 중개업자는 수수료를 받는다."], "ans": 5, "expl": "전속중개계약에서 의뢰인이 직접 거래를 성사시킨 경우에는 중개업자가 수수료를 받지 못한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_076.m4a"}, {"no": 77, "part": "관리개발", "theme": "공인중개사법 주요내용", "headline": "공인중개사법 주요내용", "definition": "공인중개사법: 부동산중개업의 자격·등록·업무범위·수수료 등 중개업 전반을 규율하는 법률", "bullets": ["중개업자가 적법하게 수수료를 받으려면 자격증 소지·원인행위·중개계약존재·매수자적절성 필요", "도시부동산보다 농촌부동산, 주거용보다 비주거용 부동산의 수수료가 높은 경향", "매매가격이 높을수록 상대적으로 수수료율은 낮아지는 경향", "전속중개계약이 우리나라 공인중개사법에 명문화되어 있으나 강제의무사항은 아님"], "tip": "거래빈도 낮을수록(농촌·비주거) 수수료 높음", "q": "공인중개사법 주요내용에 관한 설명으로 옳지 않은 것은?", "choices": ["우리나라 공인중개사법에는 전속중개계약이 명문화되어 있으며 이를 반드시 체결해야 하는 강제의무사항이다.", "중개업자가 적법하게 중개수수료를 받기 위해서는 자격증 소지 등의 요건을 갖추어야 한다.", "다른 조건이 같다면 도시부동산보다 농촌부동산의 중개수수료가 더 높은 경향이 있다.", "다른 조건이 같다면 주거용 부동산보다 비주거용 부동산의 중개수수료가 더 높은 경향이 있다.", "매매가격이 비싼 부동산일수록 상대적으로 중개수수료율은 낮아지는 경향이 있다."], "ans": 1, "expl": "전속중개계약은 우리나라 공인중개사법에 명문화되어 있으나 반드시 체결해야 하는 강제성 있는 의무사항은 아니다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_077.m4a"}, {"part": "관리개발", "theme": "권리분석의 특별원칙", "headline": "권리분석의 특별원칙", "definition": "권리분석의 특별원칙: 능률성의 원칙·안전성의 원칙·탐문주의 원칙·증거주의 원칙(안전성의 원칙은 여러 하위원칙으로 구성)", "bullets": ["능률성의 원칙: 권리와 거래상의 능률화를 추구", "안전성의 원칙: 하자전제·완전심증·범위확대·차단·유동성대비 원칙을 하위원칙으로 함", "탐문주의 원칙: 분석주체가 직접 확인해야 한다는 원칙", "증거주의 원칙: 물적·인적 증거를 소멸시키지 않고 제시 가능해야 한다는 원칙"], "tip": "안전성 원칙의 하위원칙 5가지: 하자전제·완전심증·범위확대·차단·유동성대비", "q": "부동산 권리분석의 특별원칙에 관한 설명으로 옳지 않은 것은?", "choices": ["능률성의 원칙은 부동산 권리와 거래상의 능률화를 기하는 데 목적이 있다.", "안전성의 원칙에 해당하는 하위원칙에는 능률성의 원칙과 탐문주의 원칙도 포함된다.", "하자전제의 원칙, 완전심증의 원칙, 차단의 원칙은 안전성의 원칙에 속하는 하위원칙이다.", "탐문주의 원칙은 분석주체가 분석대상 권리의 주요사항을 직접 확인해야 한다는 원칙이다.", "증거주의 원칙은 물적·인적 증거를 소멸시키지 않고 언제든지 제시할 수 있어야 한다는 원칙이다."], "ans": 2, "expl": "능률성의 원칙과 탐문주의 원칙은 안전성의 원칙과는 별개의 독립적인 권리분석 특별원칙이며, 안전성의 원칙의 하위원칙이 아니다.", "no": 78, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_078.m4a"}, {"part": "관리개발", "theme": "에스크로우(Escrow) 제도", "headline": "에스크로우 제도", "definition": "에스크로우: 제3자인 대행업자가 매매대금·권원이전 절차를 관리하여 거래안전을 도모하는 제도", "bullets": ["에스크로우회사·은행·신탁회사·권원보험회사 등이 대행업자 역할 수행", "권원상 하자가 제거되지 않는 한 대금을 매도자에게 전달하지 않아 거래사고 사전방지", "권원상 하자·부담 발견시 예치금을 사용해 이를 제거하는 기능도 수행", "매도자·매수자·저당대출기관 등 거래관계자 전체의 권익 보호 및 거래비용 절감"], "tip": "에스크로우=제3자가 대금·권원이전을 중립적으로 관리(거래사고 예방)", "q": "에스크로우(escrow) 제도에 관한 설명으로 옳지 않은 것은?", "choices": ["은행, 신탁회사, 권원보험회사 등이 산하에 부서를 두어 에스크로우 대행업자 역할을 하기도 한다.", "에스크로우를 설정하면 권원상의 하자가 제거되지 않는 한 매수자가 지불한 대금이 매도자에게 넘어가지 않는다.", "에스크로우 대행업자는 매수자가 예치한 대금의 일부를 사용하여 치유가능한 권원상의 하자를 제거하기도 한다.", "에스크로우는 매수자뿐만 아니라 매도자, 저당대출기관 등 거래관계자 전체의 권익을 보호하는 역할을 한다.", "에스크로우 회사는 매도자와 매수자의 협상과정에 적극 참여하여 계약조건 조율 등 중개업무를 직접 수행한다."], "ans": 5, "expl": "에스크로우 회사는 매도자·매수자의 협상과정에 참여하지 않으며, 계약조건 협의 등의 업무는 중개사 고유의 업무영역이다.", "no": 79, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_079.m4a"}, {"no": 80, "part": "관리개발", "theme": "부동산신탁제도", "headline": "부동산신탁제도", "definition": "부동산신탁: 소유자(위탁자)가 신탁회사(수탁자)에게 관리·처분·개발을 맡기고 수익을 배당받는 제도", "bullets": ["관리신탁, 처분신탁, 개발(토지)신탁, 담보신탁 등으로 구분", "신탁재산은 독립재산으로 취급되어 위탁자의 상속·강제집행·경매 대상에서 제외", "명의신탁과 달리 부동산신탁은 실제 소유자가 등기부에 표시되어 분쟁소지가 적음", "신탁 전 위탁자의 소유권 하자는 수탁자가 그대로 승계함(하자승계)"], "tip": "신탁재산=독립재산(위탁자 상속·경매 대상 제외)", "q": "부동산신탁제도에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산신탁은 위탁자가 신탁회사(수탁자)에게 부동산의 관리·처분·개발을 맡기는 제도이다.", "부동산신탁의 방식에는 관리신탁, 처분신탁, 개발(토지)신탁, 담보신탁 등이 있다.", "신탁 이전에 위탁자의 소유권에 존재하던 하자는 수탁자에게 승계되지 않는다.", "신탁재산은 독립재산으로 취급되어 원칙적으로 위탁자의 상속이나 강제집행의 대상이 되지 않는다.", "부동산신탁은 명의신탁과 달리 부동산의 실제 소유자가 등기사항전부증명서에 표시되어 분쟁소지가 적다."], "ans": 3, "expl": "신탁계약 전 위탁자의 소유권 등에 하자가 있는 경우, 수탁자는 그 하자를 당연히 승계한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_080.m4a"}, {"no": 81, "part": "감정평가", "theme": "감정평가의 개념과 필요성", "headline": "감정평가의 개념과 필요성", "definition": "감정평가: 토지등의 경제적 가치를 판정하여 가액으로 표시하는 것(합리적 시장의 부재 등이 필요성의 근거)", "bullets": ["감정평가법상 정의: 토지등의 경제적 가치를 판정하여 가액으로 표시하는 것", "필요성: 합리적 시장 부재, 가치형성요인의 복잡성·다양성, 부동산의 사회성·공공성 등", "정책적 기능: 효율적 이용관리, 손실보상, 과세의 합리화 등", "경제적 기능: 자원의 효율적 배분, 거래질서 확립, 의사결정 판단기준 제시"], "tip": "감정평가 필요성 근거=시장의 불완전성+부동산의 사회성·공공성", "q": "감정평가의 개념과 필요성에 관한 설명으로 옳지 않은 것은?", "choices": ["감정평가란 토지등의 경제적 가치를 판정하여 그 결과를 가액으로 표시하는 것을 말한다.", "가치형성요인의 복잡성과 다양성은 감정평가가 필요한 이유 중 하나이다.", "감정평가는 부동산 자원의 효율적 배분과 거래질서 확립에 기여하는 경제적 기능을 가진다.", "감정평가는 손실보상의 합리화, 과세의 합리화 등 정책적 기능을 수행한다.", "감정평가는 부동산시장이 합리적이고 완전한 시장이기 때문에 특별히 필요하지 않다."], "ans": 5, "expl": "부동산시장은 불완전경쟁시장으로 합리적인 시장이 부재하기 때문에 감정평가가 필요하다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_081.m4a"}, {"no": 82, "part": "감정평가", "theme": "감정평가의 분류", "headline": "감정평가의 분류", "definition": "감정평가의 분류: 평가주체·평가의무·평가목적 등 기준에 따라 공적·공인평가, 필수적·임의적평가, 공익·사익평가 등", "bullets": ["평가주체 기준: 공적평가(국가·공공기관)와 공인평가(자격을 부여받은 개인)", "평가의무 기준: 필수적평가(공시지가·보상평가 등)와 임의적평가(매매·담보평가 등)", "평가목적 기준: 공익평가(표준지공시지가 등)와 사익평가(매매·담보평가 등)", "평가주체 수 기준: 단독평가(신속·경제적)와 합의제평가(객관성 유지)"], "tip": "필수적평가=공시지가·보상평가 / 임의적평가=매매·담보평가", "q": "감정평가의 분류에 관한 설명으로 옳지 않은 것은?", "choices": ["공적평가는 국가, 공공기관 등 공적기관에 의한 평가를 말한다.", "공시지가의 평가, 공용수용에 따른 보상평가는 필수적 평가에 해당한다.", "담보평가나 부동산매매를 위한 평가는 임의적 평가에 해당한다.", "합의제평가는 다수의 평가주체가 공동으로 행하는 평가로 객관성이 유지된다는 장점이 있다.", "표준지공시지가의 평가는 사익을 위한 감정평가인 사익평가에 해당한다."], "ans": 5, "expl": "표준지공시지가의 평가는 평가의 목적과 결과가 공익을 위한 것이므로 공익평가에 해당한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_082.m4a"}, {"part": "감정평가", "theme": "시산가액의 조정", "headline": "시산가액 조정", "definition": "시산가액 조정: 주된 방법으로 산출한 시산가액을 다른 감정평가방식의 시산가액과 비교, 합리성 검토 후 감정평가액을 결정하는 절차", "bullets": ["주된 방법으로 시산가액 산출 후 다른 감정평가방식의 시산가액과 비교·검토", "공시지가기준법과 그 밖의 비교방식은 서로 다른 감정평가방식으로 봄", "시산가액에 합리성이 없다고 판단되면 시산가액을 조정하여 감정평가액 결정", "시산가액 조정은 단순 산술평균이 아니라 합리성 검토를 통한 조정 절차"], "tip": "시산가액 조정 ≠ 단순 산술평균(주의!)", "q": "감정평가에 관한 규칙상 시산가액 조정에 관한 설명으로 옳지 않은 것은?", "choices": ["감정평가법인등은 주된 방법으로 산정한 시산가액을 다른 감정평가방식에 속하는 하나 이상의 방법으로 산출한 시산가액과 비교하여 합리성을 검토해야 한다.", "공시지가기준법과 그 밖의 비교방식에 속한 감정평가방법은 서로 다른 감정평가방식에 속한 것으로 본다.", "시산가액 조정은 각 방식으로 산출된 시산가액들을 단순 산술평균하여 감정평가액을 결정하는 절차이다.", "대상물건의 특성 등으로 다른 감정평가방법을 적용하는 것이 곤란하거나 불필요한 경우에는 시산가액 비교를 하지 않을 수 있다.", "시산가액의 합리성이 없다고 판단되는 경우 주된 방법 및 다른 방법으로 산출한 시산가액을 조정하여 감정평가액을 결정할 수 있다."], "ans": 3, "expl": "시산가액 조정은 단순한 산술평균이 아니라, 각 시산가액의 합리성을 검토하여 감정평가액을 결정하는 절차이다.", "no": 83, "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_083.m4a"}, {"no": 84, "part": "감정평가", "theme": "부동산가격의 일반론", "headline": "부동산가격의 일반론", "definition": "부동산가격의 특성: 가격·임대료로 표시되는 권리의 가격, 장기적 배려·개별적 사정이 개입되기 쉬운 등 일반재화와 차이", "bullets": ["협의의 가격(교환대가)+임대료(용익대가)=광의의 가격", "부동산가격은 소유권 등 권리·이익의 가격(물리적 실체가 아닌 권리 거래)", "가격의 이중성: 수요·공급이 가격을 결정하고, 그 가격이 다시 수요·공급에 영향", "시장가치는 여러 가격 중 대표성·규범성을 지닌 가격으로 감정평가의 기준"], "tip": "부동산가격=권리의 가격(물리적 실체 아님)", "q": "부동산가격의 일반론에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산가격은 교환의 대가인 가격과 용익의 대가인 임대료로 표시된다.", "부동산가격은 소유권 등 권리·이익의 대가를 의미하며 물리적 실체 자체의 가격이 아니다.", "가격의 이중성이란 가격이 수요·공급에 의해 결정되고 다시 수요·공급에 영향을 미치는 현상을 말한다.", "부동산가격은 개별적 동기나 특수한 사정이 개입되기 어려운 일물일가의 법칙이 항상 성립하는 가격이다.", "시장가치는 여러 가격의 종류 가운데 대표성과 규범성을 지닌 가격이다."], "ans": 4, "expl": "부동산시장은 불완전시장이므로 일물일가의 법칙에 의한 정상적인 균형가격이 성립되기 어렵고, 개별적 사정(특수사정)이 개입되기 쉽다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_084.m4a"}, {"no": 85, "part": "감정평가", "theme": "부동산가치의 형성원리", "headline": "부동산가치의 형성원리", "definition": "부동산가치의 형성원리: 유용성·상대적 희소성·유효수요(가치발생요인)의 상관결합으로 발생, 가치형성요인의 상호작용으로 형성·변동", "bullets": ["가치발생요인 3요소: 유용성(효용), 상대적 희소성, 유효수요(이전성도 포함하는 견해 있음)", "유용성: 주거지=쾌적성, 상업지=수익성, 공업지=생산성으로 표현", "가치형성요인: 일반적요인, 지역요인, 개별요인으로 구성", "가치발생요인은 수요측면(유용성·유효수요)과 공급측면(상대적 희소성)으로 구분"], "tip": "가치발생 3요소: 유용성·상대적희소성·유효수요", "q": "부동산가치의 형성원리에 관한 설명으로 옳지 않은 것은?", "choices": ["부동산가치는 유용성, 상대적 희소성, 유효수요의 상관결합에 의해 발생한다.", "유용성은 부동산을 소유 또는 이용함으로써 얻어지는 주관적 만족을 의미한다.", "상대적 희소성은 수요측면의 가치발생요인에 해당한다.", "일반적으로 주거지는 쾌적성, 상업지는 수익성, 공업지는 생산성에 의해 유용성이 좌우된다.", "가치형성요인은 일반요인, 지역요인, 개별요인으로 구성된다."], "ans": 3, "expl": "상대적 희소성은 공급측면의 가치발생요인이며, 유용성과 유효수요가 수요측면의 가치발생요인에 해당한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_085.m4a"}, {"no": 86, "part": "감정평가", "theme": "지역분석", "headline": "지역분석", "definition": "지역분석: 대상지역의 표준적 이용·가격수준 판정을 위한 지역요인 분석, 인근지역·유사지역·동일수급권이 대상", "bullets": ["인근지역: 대상부동산이 속하며 용도적·기능적 동질성을 가진 지역", "유사지역: 인근지역과 유사한 특성을 갖는 대상부동산이 속하지 않는 지역", "동일수급권: 인근지역+유사지역을 포함하는 대체·경쟁관계가 성립하는 권역", "지역분석은 개별분석에 선행하며, 표준적 이용과 가격수준을 파악하는 작업"], "tip": "동일수급권=인근지역+유사지역", "q": "지역분석에 관한 설명으로 옳지 않은 것은?", "choices": ["인근지역은 대상부동산이 속하며 용도적·기능적 동질성을 갖는 지역이다.", "동일수급권은 인근지역과 유사지역을 포함하는 개념이다.", "지역분석은 대상부동산이 속한 지역의 표준적 이용과 가격수준을 판정하는 작업이다.", "대상부동산의 최유효이용은 그 지역의 표준적 이용과의 상관관계를 고려하여 판정된다.", "지역분석은 일반적으로 개별분석 이후에 이루어진다."], "ans": 5, "expl": "지역분석은 개별분석에 선행하여 이루어지며, 지역분석을 통해 파악된 표준적 이용의 제약 하에서 개별분석을 통한 최유효이용이 판정된다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_086.m4a"}, {"no": 87, "part": "감정평가", "theme": "부동산가격의 제원칙", "headline": "부동산가격의 제원칙", "definition": "부동산가격제원칙: 가치형성과정에서 작용하는 법칙성, 최유효이용의 원칙을 상위원칙으로 균형·적합·대체·경쟁 등 여러 원칙으로 구성", "bullets": ["최유효이용의 원칙: 가격제원칙 중 가장 중추적인 최상위 원칙", "균형의 원칙(내부측면): 부동산 내부 구성요소간의 결합에 균형이 필요하다는 원칙, 개별분석·기능적 감가의 판단기준", "적합의 원칙(외부측면): 부동산이 속한 지역환경에 적합해야 한다는 원칙, 지역분석·경제적 감가의 판단기준", "대체의 원칙: 감정평가 3방식의 가장 기초가 되는 원칙"], "tip": "균형=내부적 균형·개별분석 / 적합=외부적 균형·지역분석 (기출 최다빈출 두 원칙!)", "q": "부동산가격의 제원칙에 관한 설명으로 옳지 않은 것은?", "choices": ["최유효이용의 원칙은 부동산 가격제원칙 중 가장 중추적인 기능을 담당하는 원칙이다.", "균형의 원칙, 수익배분의 원칙, 기여의 원칙은 최유효이용의 내부측면 원칙에 해당한다.", "적합의 원칙, 경쟁의 원칙, 외부성의 원칙은 최유효이용의 외부측면 원칙에 해당한다.", "대체의 원칙은 감정평가 3방식의 가장 기초가 되는 가격원칙이다.", "변동의 원칙과 예측의 원칙은 최유효이용의 내부측면 원칙에 해당한다."], "ans": 5, "expl": "변동의 원칙과 예측의 원칙은 최유효이용 판정의 토대가 되는 원칙으로 분류되며, 내부측면 원칙이 아니다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_087.m4a"}, {"no": 88, "part": "감정평가", "theme": "감정평가의 기본원리(3방식)", "headline": "감정평가의 3방식과 6방법", "definition": "감정평가 3방식: 가격의 3면성(비용성·시장성·수익성)에 근거한 원가방식·비교방식·수익방식, 가액·임대료 산정방법으로 세분되어 6방법 구성", "bullets": ["원가방식(비용성): 원가법(가액)·적산법(임대료)", "비교방식(시장성): 거래사례비교법·공시지가기준법(가액), 임대사례비교법(임대료)", "수익방식(수익성): 수익환원법(가액)·수익분석법(임대료)", "3방식 시산가액을 조정하여 최종 감정평가액을 결정"], "tip": "비용성=원가방식 / 시장성=비교방식 / 수익성=수익방식", "q": "감정평가의 기본원리(3방식)에 관한 설명으로 옳지 않은 것은?", "choices": ["감정평가에서는 3방식 중 가장 신뢰도가 높은 하나의 방식만을 사용하여 최종 평가액을 결정한다.", "감정평가 3방식은 비용성, 시장성, 수익성이라는 가격의 3면성에 근거한다.", "원가방식에서 가액을 구하는 방법은 원가법이고 임대료를 구하는 방법은 적산법이다.", "비교방식에는 거래사례비교법, 공시지가기준법, 임대사례비교법이 포함된다.", "수익방식에서 가액을 구하는 방법은 수익환원법이고 임대료를 구하는 방법은 수익분석법이다."], "ans": 1, "expl": "감정평가는 여러 방식으로 산정한 시산가액을 상호 비교·조정하여 최종 감정평가액을 결정하는 것이 원칙이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_088.m4a"}, {"no": 89, "part": "감정평가", "theme": "원가법-재조달원가의 산정", "headline": "원가법과 재조달원가", "definition": "원가법: 재조달원가에서 감가수정액을 차감해 적산가액을 구하는 감정평가방법(재조달원가=기준시점 재생산·재취득에 필요한 적정원가)", "bullets": ["적산가액=재조달원가-감가수정액", "재조달원가는 재생산비용(복제원가)과 대치원가(대체원가)로 구분", "재생산비용>대치원가(대치원가는 기능·효용 기준으로 기능적 감가 이중계산 방지 필요)", "재조달원가 산정방법: 직접법과 간접법(병용이 바람직)"], "tip": "재조달원가=대상물건 값의 상한선, 재생산비용>대치원가", "q": "원가법과 재조달원가의 산정에 관한 설명으로 옳지 않은 것은?", "choices": ["원가법에 의해 구한 가액을 적산가액이라 하며, 적산가액은 재조달원가에서 감가수정액을 차감하여 구한다.", "재조달원가의 산정방법으로 직접법을 사용하는 경우에는 대상물건과 유사한 다른 물건의 원가자료를 활용한다.", "재조달원가는 대상물건을 기준시점에 재생산하거나 재취득하는 데 필요한 적정원가의 총액을 말한다.", "재생산비용은 대상물건과 동일한 규모·구조·모양의 복제품을 만드는 데 드는 비용이다.", "대치원가는 대상물건과 동일한 기능 및 효용을 갖는 물건을 생산하는 데 드는 비용이다."], "ans": 2, "expl": "대상물건과 유사한 다른 물건의 원가자료를 활용하는 것은 간접법이다. 직접법은 대상물건 자체의 원가관련 자료를 직접 활용하는 방법이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_089.m4a"}, {"no": 90, "part": "감정평가", "theme": "원가법-감가수정의 방법", "headline": "감가수정의 방법", "definition": "감가수정: 재조달원가에서 물리적·기능적·경제적 감가요인을 반영해 가치를 조정하는 작업, 정액법·정률법·상환기금법 사용", "bullets": ["정액법: 매년 감가액 일정, 건물·구축물에 주로 적용(계산 간편)", "정률법: 매년 감가율 일정(감가액은 체감), 기계·기구 등에 적합", "상환기금법: 감가액을 축적이율로 재투자 가정, 광산평가 등에 사용", "초기 감가수정액 크기: 정률법>정액법>상환기금법"], "tip": "초기감가액: 정률법>정액법>상환기금법 / 초기적산가액: 상환기금법>정액법>정률법", "q": "원가법의 감가수정 방법에 관한 설명으로 옳지 않은 것은?", "choices": ["정액법은 감가상각총액을 경제적 내용연수로 균등하게 배분하는 방법으로 계산이 간편하다.", "정률법은 전년 말 미상각잔액에 일정한 감가율을 곱하여 매년의 감가액을 구하는 방법이다.", "상환기금법은 매년의 감가액을 축적이율로 재투자하는 것을 전제로 한다.", "초기 감가수정액의 크기는 일반적으로 정률법이 정액법보다 크다.", "초기 적산가액의 크기는 일반적으로 정률법이 상환기금법보다 크다."], "ans": 5, "expl": "초기 적산가액의 크기는 일반적으로 상환기금법>정액법>정률법 순으로, 정률법의 초기 적산가액이 상환기금법보다 작다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_090.m4a"}, {"no": 91, "part": "감정평가", "theme": "거래사례비교법-사례선택과 비교절차", "headline": "거래사례비교법", "definition": "거래사례비교법: 가치형성요인이 같거나 유사한 거래사례와 비교(사정보정·시점수정·가치형성요인 비교)하여 비준가액을 산정하는 감정평가방법", "bullets": ["비준가액=사례가격×사정보정×시점수정×지역요인비교×개별요인비교×면적비교", "사례선택조건: 위치의 유사성·물적 유사성·시점수정 가능성·사정보정 가능성", "사례가 인근지역에 속하면 지역요인 비교 생략, 동일수급권 유사지역이면 비교 필요", "개별요인 비교는 부동산의 개별성으로 인해 항상 수행해야 함"], "tip": "개별요인 비교는 예외 없이 항상 수행", "q": "거래사례비교법에 관한 설명으로 옳지 않은 것은?", "choices": ["거래사례비교법에 의해 구한 가액을 비준가액이라 한다.", "사례가 동일수급권 내 유사지역에 속하는 경우에는 지역요인 비교를 하지 않아도 된다.", "비준가액은 사례가격에 사정보정치, 시점수정치, 지역요인비교치, 개별요인비교치 등을 곱하여 구한다.", "사례가 인근지역에 존재하는 경우에는 지역요인 비교를 생략할 수 있다.", "개별요인 비교는 부동산의 개별성으로 인해 사례의 소재지역에 관계없이 항상 실시해야 한다."], "ans": 2, "expl": "사례부동산이 동일수급권 내 유사지역에 속해 있는 경우에는 지역요인 비교가 필요하다. 지역요인 비교를 생략할 수 있는 것은 사례가 인근지역에 존재하는 경우이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_091.m4a"}, {"no": 92, "part": "감정평가", "theme": "공시지가기준법", "headline": "공시지가기준법", "definition": "공시지가기준법: 가치형성요인이 유사한 표준지 공시지가를 기준으로 시점수정·지역요인 및 개별요인 비교·그 밖의 요인 보정을 거쳐 가액을 산정하는 감정평가방법", "bullets": ["순서: 비교표준지 선정→시점수정→지역요인 비교→개별요인 비교→그 밖의 요인 보정", "공시지가기준법 적용시 사정보정은 하지 않음", "비교표준지: 인근지역 내 표준지 우선 선정, 없으면 동일수급권 유사지역 표준지 선정", "감정평가법인등은 토지 감정평가시 공시지가기준법 적용이 원칙(감칙 제14조)"], "tip": "공시지가기준법=사정보정 생략(비교표준지는 이미 적정가격이므로)", "q": "공시지가기준법에 관한 설명으로 옳지 않은 것은?", "choices": ["공시지가기준법은 비교표준지 선정, 시점수정, 지역요인 비교, 개별요인 비교, 그 밖의 요인 보정의 순서로 진행된다.", "공시지가기준법을 적용할 때에는 원칙적으로 사정보정을 하지 않는다.", "비교표준지는 인근지역에 있는 표준지 중에서 선정하는 것을 원칙으로 한다.", "감정평가법인등이 토지를 감정평가할 때는 원칙적으로 거래사례비교법을 우선 적용해야 한다.", "인근지역에 적절한 표준지가 없는 경우에는 동일수급권 안의 유사지역에 있는 표준지를 선정할 수 있다."], "ans": 4, "expl": "감정평가법인등이 토지를 감정평가할 때에는 원칙적으로 공시지가기준법을 적용해야 한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_092.m4a"}, {"no": 93, "part": "감정평가", "theme": "수익환원법-순수익의 산정", "headline": "수익환원법과 순수익의 산정", "definition": "수익환원법: 장래 산출할 순수익을 환원율로 환원하여 수익가액을 산정하는 감정평가방법", "bullets": ["수익가액=순수익÷환원율(직접환원법 기준)", "순수익 산정방법: 직접법(대상부동산에서 직접 구함), 간접법(유사부동산 사례에서 구함)", "순수익 종류에 따라 상각전·후, 세공제 전·후 순수익으로 구분", "잔여법(토지·건물잔여법)은 대상부동산의 순수익에서 토지 또는 건물의 순수익을 공제하여 산정"], "tip": "수익가액=순수익÷환원율", "q": "수익환원법과 순수익의 산정에 관한 설명으로 옳지 않은 것은?", "choices": ["수익환원법은 대상물건이 장래 산출할 순수익을 환원하여 가액을 산정하는 감정평가방법이다.", "직접환원법에서 수익가액은 순수익을 환원율로 나누어 구한다.", "토지잔여법은 대상부동산의 순수익에서 건물의 순수익을 공제하지 않고 토지의 순수익 전액을 그대로 사용하는 방법이다.", "순수익의 산정방법에는 대상부동산에서 직접 구하는 직접법과 유사부동산의 사례로부터 구하는 간접법이 있다.", "순수익은 상각 전·후, 세공제 전·후 순수익 등으로 구분할 수 있다."], "ans": 3, "expl": "토지잔여법은 대상부동산 전체의 순수익에서 건물에 귀속되는 순수익을 공제하여 토지에 귀속되는 순수익을 구하는 방법이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_093.m4a"}, {"no": 94, "part": "감정평가", "theme": "수익환원법-환원율(자본환원율)의 산정", "headline": "환원율(자본환원율)의 산정", "definition": "환원율(자본환원율): 순수익을 자본환원하는 이율, 시장추출법이 원칙(요소구성법·투자결합법 등도 활용)", "bullets": ["환원율 산정방법: 시장추출법(원칙), 요소구성법(조성법), 투자결합법, 엘우드법 등", "개별환원이율(토지·건물 별도) vs 종합환원이율(가중평균)", "상각전환원율=상각후환원율+상각률(잔존내용연수의 역수)", "자본환원율=자본수익률+자본회수율(감가상각률 또는 매매차익·차손비율)"], "tip": "환원율 산정 원칙=시장추출법", "q": "환원율(자본환원율)의 산정에 관한 설명으로 옳지 않은 것은?", "choices": ["직접환원법에서 사용할 환원율은 시장추출법으로 구하는 것을 원칙으로 한다.", "요소구성법(조성법)은 순수이율에 위험할증률 등을 더하여 환원율을 구하는 방법이다.", "종합환원이율은 토지와 건물의 개별환원이율을 가격구성비율에 따라 가중평균하여 구한다.", "상각전환원율은 상각후환원율에서 상각률을 차감하여 구한다.", "자본환원율은 자본수익률과 자본회수율의 합으로 구성된다."], "ans": 4, "expl": "상각전환원율은 상각후환원율에 상각률을 더하여 구한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_094.m4a"}, {"no": 95, "part": "감정평가", "theme": "임대료 구하는 법", "headline": "임대료 구하는 법(적산법 등)", "definition": "임대료 산정방법: 원가방식(적산법)·비교방식(임대사례비교법)·수익방식(수익분석법), 원칙적으로 임대사례비교법 적용", "bullets": ["적산법: 적산임대료=기초가액×기대이율+필요제경비", "임대사례비교법: 비준임대료=임대사례임대료×사정보정×시점수정×요인비교", "수익분석법: 수익임대료=순수익(순임대료)+필요제경비", "감칙상 임대료 감정평가는 원칙적으로 임대사례비교법 적용"], "tip": "적산법=원가방식 / 임대사례비교법=비교방식(원칙) / 수익분석법=수익방식", "q": "임대료 구하는 법에 관한 설명으로 옳지 않은 것은?", "choices": ["적산법에 의한 적산임대료는 기초가액에 기대이율을 곱하고 필요제경비를 더하여 구한다.", "감정평가에 관한 규칙상 임대료를 감정평가할 때에는 원칙적으로 적산법을 적용해야 한다.", "임대사례비교법에 의해 구한 임대료를 비준임대료라 한다.", "수익분석법에 의한 수익임대료는 순수익에 필요제경비를 더하여 구한다.", "기대이율이란 기초가액에 대하여 기대되는 임대수익의 비율을 말한다."], "ans": 2, "expl": "감정평가에 관한 규칙상 임대료를 감정평가할 때에는 원칙적으로 임대사례비교법을 적용해야 한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_095.m4a"}, {"no": 96, "part": "감정평가", "theme": "감정평가의 절차와 실시", "headline": "감정평가의 절차(기준시점 등)", "definition": "기준시점: 감정평가액 결정의 기준이 되는 날짜, 원칙적으로 가격조사를 완료한 날짜", "bullets": ["기준시점=원칙적으로 가격조사를 완료한 날짜", "기준시점은 미리 정할 수도 있으나, 그 날짜에 가격조사가 가능해야 함", "감정평가일(현지조사 완료 후 감정평가서 작성일)과 기준시점은 개념상 구분됨", "기준시점이 중요한 이유: 가치형성요인 변화에 따른 부동산가치 변동(변동의 원칙) 반영"], "tip": "기준시점=가격조사 완료일(과거·미래 가능) / 감정평가일=항상 현재", "q": "감정평가의 절차(기준시점 등)에 관한 설명으로 옳지 않은 것은?", "choices": ["감정평가일과 기준시점은 항상 동일한 날짜를 의미하는 같은 개념이다.", "기준시점이란 대상물건의 감정평가액을 결정하는 기준이 되는 날짜를 말한다.", "기준시점은 원칙적으로 대상물건의 가격조사를 완료한 날짜로 한다.", "기준시점을 미리 정한 경우에는 그 날짜에 가격조사가 가능한 경우에만 기준시점으로 할 수 있다.", "부동산가치는 가치형성요인의 변화에 따라 항상 변동하므로 평가액은 기준시점 당시에만 타당하다."], "ans": 1, "expl": "감정평가일은 항상 현재로 표시되나 기준시점은 과거나 미래도 될 수 있어, 양자는 개념상 엄격히 구분된다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_096.m4a"}, {"no": 97, "part": "감정평가", "theme": "물건별 평가방법", "headline": "물건별 감정평가방법", "definition": "물건별 감정평가방법: 감정평가에 관한 규칙에서 토지·건물·산림·과수원 등 물건 종류별 주된 방법을 규정", "bullets": ["토지: 공시지가기준법(원칙), 건물: 원가법", "토지·건물 일괄평가(집합건물 등): 거래사례비교법", "산림: 산지와 입목 구분평가(입목은 거래사례비교법, 소경목림은 원가법 가능)", "과수원: 거래사례비교법, 광업권·어업권 등 무형자산: 수익환원법"], "tip": "토지=공시지가기준법 / 건물=원가법 / 과수원·산림입목=거래사례비교법", "q": "물건별 감정평가방법에 관한 설명으로 옳지 않은 것은?", "choices": ["토지를 감정평가할 때에는 공시지가기준법을 적용하는 것이 원칙이다.", "건물을 감정평가할 때에는 원가법을 적용하는 것이 원칙이다.", "과수원을 감정평가할 때에는 거래사례비교법을 적용하는 것이 원칙이다.", "집합건물의 대지사용권과 건물부분을 일괄하여 감정평가할 때에는 거래사례비교법을 적용한다.", "광업권과 어업권을 감정평가할 때에는 원가법을 적용하는 것이 원칙이다."], "ans": 5, "expl": "광업권과 어업권 등 무형자산을 감정평가할 때에는 수익환원법을 적용하는 것이 원칙이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_097.m4a"}, {"no": 98, "part": "감정평가", "theme": "부동산가격공시제도의 개요", "headline": "부동산가격공시제도의 개요", "definition": "부동산가격공시제도: 토지·주택·비주거용 부동산의 적정가격 공시를 통해 가격형성 합리화·과세 형평성을 도모하는 제도", "bullets": ["표준지공시지가·표준주택가격·표준부동산가격: 국토교통부장관이 결정·공시", "개별공시지가·개별주택가격·개별부동산가격: 시장·군수·구청장이 결정·공시", "공동주택가격·집합부동산가격: 국토교통부장관이 결정·공시", "적정가격: 통상적인 시장에서 정상적 거래시 성립 가능성이 가장 높은 가격"], "tip": "표준(국토부) vs 개별(시·군·구청장)", "q": "부동산가격공시제도의 개요에 관한 설명으로 옳지 않은 것은?", "choices": ["표준지공시지가는 국토교통부장관이 조사·평가하여 공시한다.", "개별공시지가는 시장·군수 또는 구청장이 결정·공시한다.", "표준주택가격은 국토교통부장관이 결정·공시한다.", "공동주택가격은 시장·군수 또는 구청장이 결정·공시한다.", "적정가격이란 통상적인 시장에서 정상적인 거래가 이루어지는 경우 성립될 가능성이 가장 높다고 인정되는 가격을 말한다."], "ans": 4, "expl": "공동주택가격은 국토교통부장관이 중앙부동산가격공시위원회의 심의를 거쳐 결정·공시한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_098.m4a"}, {"no": 99, "part": "감정평가", "theme": "표준지공시지가", "headline": "표준지공시지가", "definition": "표준지공시지가: 국토교통부장관이 매년 1월 1일 기준 조사·평가하여 공시하는 표준지의 단위면적당 적정가격", "bullets": ["공시기준일: 매년 1월 1일, 공시일: 2월 말일", "효력: 지가정보 제공, 토지거래의 지표, 감정평가·보상의 기준", "국토교통부장관은 전년도 8월 중 감정평가사에게 조사·평가 의뢰", "개별공시지가 산정의 기준이 됨(시·군·구청장이 5월 31일까지 결정·공시)"], "tip": "표준지공시지가=2월 말일 공시 / 개별공시지가=5월 31일 공시", "q": "표준지공시지가에 관한 설명으로 옳지 않은 것은?", "choices": ["표준지공시지가는 매년 1월 1일을 기준으로 조사·평가된다.", "표준지공시지가는 매년 2월 말일까지 공시된다.", "표준지공시지가는 국가·지방자치단체가 지가를 산정하는 경우의 기준이 된다.", "표준지공시지가는 감정평가법인등이 개별적으로 토지를 감정평가하는 경우의 기준이 된다.", "표준지공시지가는 시장·군수 또는 구청장이 조사·평가하여 공시한다."], "ans": 5, "expl": "표준지공시지가는 국토교통부장관이 조사·평가하여 공시한다. 시장·군수·구청장이 결정·공시하는 것은 개별공시지가이다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_099.m4a"}, {"no": 100, "part": "감정평가", "theme": "주택의 공시가격", "headline": "주택의 공시가격", "definition": "주택의 공시가격 구분: 표준주택가격·개별주택가격·공동주택가격, 공시주체·공시기준일·효력이 각각 상이", "bullets": ["표준주택가격: 국토교통부장관 결정, 공시기준일 1월 1일, 개별주택가격 산정기준", "개별주택가격: 시장·군수·구청장 결정, 매년 4월 30일까지 공시", "공동주택가격: 국토교통부장관 결정, 공시기준일 1월 1일", "표준주택으로 선정된 주택은 해당 표준주택가격을 개별주택가격으로 봄"], "tip": "표준주택·공동주택=국토부(1월1일 기준) / 개별주택=시군구청장(4월30일까지 공시)", "q": "주택의 공시가격에 관한 설명으로 옳지 않은 것은?", "choices": ["표준주택가격은 국토교통부장관이 조사·평가하여 결정·공시한다.", "공동주택가격은 시장·군수 또는 구청장이 결정·공시한다.", "표준주택가격의 공시기준일은 매년 1월 1일이다.", "개별주택가격은 시장·군수 또는 구청장이 매년 4월 30일까지 결정·공시한다.", "표준주택으로 선정된 주택에 대해서는 해당 주택의 표준주택가격을 개별주택가격으로 본다."], "ans": 2, "expl": "공동주택가격은 국토교통부장관이 중앙부동산가격공시위원회의 심의를 거쳐 결정·공시한다.", "audio": "https://pub-5d2c529faccc44daa5a2d4bdea2cd6f4.r2.dev/theme_100.m4a"}]</script>
+<script>
+const THEMES = JSON.parse(document.getElementById('theme-data').textContent);
+const PART_META = {"총론": {"label": "01 총론", "color": "#4f46e5"}, "경제론": {"label": "02 경제론", "color": "#0891b2"}, "시장론": {"label": "03 시장론", "color": "#475569"}, "정책론": {"label": "04 정책론", "color": "#d97706"}, "투자론": {"label": "05 투자론", "color": "#7c3aed"}, "금융론": {"label": "06 금융론", "color": "#2563eb"}, "관리개발": {"label": "07 관리 및 개발론", "color": "#db2777"}, "감정평가": {"label": "08 감정평가론", "color": "#0d9488"}};
+const PART_ORDER = ["총론", "경제론", "시장론", "정책론", "투자론", "금융론", "관리개발", "감정평가"];
+const CIRC = ["①","②","③","④","⑤"];
+
+// in-memory progress (no persistence by design)
+const progress = {}; // no -> 'correct' | 'incorrect'
+
+function themesByPart(part) {
+  return THEMES.filter(t => t.part === part).sort((a,b) => a.no - b.no);
+}
+function getTheme(no) {
+  return THEMES.find(t => t.no === Number(no));
+}
+function scorePct() {
+  const total = THEMES.length;
+  const done = Object.keys(progress).length;
+  return { done, total, pct: total ? Math.round(done/total*100) : 0 };
+}
+function updateHeaderProgress() {
+  const { done, total, pct } = scorePct();
+  document.getElementById('progressText').textContent = `${done} / ${total} 완료`;
+  const ring = document.getElementById('ringFill');
+  ring.setAttribute('stroke-dasharray', `${pct} 100`);
+}
+
+/* ---------------- Home view ---------------- */
+function renderHome() {
+  document.body.classList.remove('theme-view');
+  const { done, total } = scorePct();
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <div class="hero">
+      <h2>감정평가사 1차 「부동산학원론」 빈출테마 100</h2>
+      <p>기출문제 분석을 기반으로 선정한 빈출테마 100개를 8개 파트로 정리했습니다. 테마별 핵심요약을 먼저 학습한 뒤, 개념확인 문제로 이해도를 점검하세요.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">100</div><div class="lbl">전체 테마</div></div>
+        <div class="hero-stat"><div class="num">8</div><div class="lbl">파트</div></div>
+        <div class="hero-stat"><div class="num" id="heroDone">${done}</div><div class="lbl">학습 완료</div></div>
+      </div>
+    </div>
+    <div class="section-title">파트별 테마 목록<div class="line"></div></div>
+    <div class="part-grid" id="partGrid"></div>
+    <div class="footer-note">해커스 감정평가사 · 부동산학원론 적중키워드 &nbsp;|&nbsp; 민영기 제공</div>
+  `;
+  const grid = document.getElementById('partGrid');
+  PART_ORDER.forEach(part => {
+    const meta = PART_META[part];
+    const list = themesByPart(part);
+    const doneCnt = list.filter(t => progress[t.no]).length;
+    const pct = Math.round(doneCnt/list.length*100);
+    const card = document.createElement('div');
+    card.className = 'part-card';
+    card.innerHTML = `
+      <div class="part-card-head">
+        <div class="part-badge" style="background:${meta.color}">${meta.label.slice(0,2)}</div>
+        <div class="pname">${meta.label.slice(3)}</div>
+        <div class="pcount">${list.length}개 테마</div>
+      </div>
+      <div class="part-progress-bar"><div class="part-progress-fill" style="width:${pct}%; background:${meta.color}"></div></div>
+      <div class="part-card-sub">${doneCnt} / ${list.length} 학습 완료 · 테마 보기</div>
+      <div class="theme-chip-grid"></div>
+    `;
+    const chipGrid = card.querySelector('.theme-chip-grid');
+    list.forEach(t => {
+      const st = progress[t.no];
+      const chip = document.createElement('a');
+      chip.className = 'theme-chip';
+      chip.href = `#/theme/${t.no}`;
+      chip.innerHTML = `<span class="tno">${t.no}</span><span>${t.theme}</span><span class="status-dot ${st || ''}"></span>`;
+      chip.onclick = (e) => e.stopPropagation();
+      chipGrid.appendChild(chip);
+    });
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.theme-chip')) return;
+      card.classList.toggle('expanded');
+    });
+    grid.appendChild(card);
+  });
+}
+
+/* ---------------- Theme detail view ---------------- */
+function renderTheme(no) {
+  const t = getTheme(no);
+  if (!t) { location.hash = '#/'; return; }
+  document.body.classList.add('theme-view');
+  const meta = PART_META[t.part];
+  const list = themesByPart(t.part);
+  const idx = list.findIndex(x => x.no === t.no);
+  const prev = list[idx - 1];
+  const next = list[idx + 1];
+
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <div class="crumb">
+      <a href="#/">전체 대시보드</a><span class="sep">/</span>
+      <span>${meta.label.slice(3)}</span><span class="sep">/</span>
+      <span>${t.theme}</span>
+    </div>
+    <div class="theme-header">
+      <div class="theme-no-badge" style="background:${meta.color}">${t.no}</div>
+      <div>
+        <h2>${t.theme}</h2>
+        <div class="part-tag">${meta.label.slice(3)}</div>
+      </div>
+    </div>
+
+    <div class="audio-bar">
+      ${t.audio
+        ? `<button class="audio-toggle-btn" id="audioToggleBtn">🎧 해설강의 듣기</button>
+           <audio class="audio-player" id="audioPlayer" controls preload="none" style="display:none;">
+             <source src="${t.audio}" type="audio/mp4">
+             이 브라우저는 오디오 재생을 지원하지 않습니다.
+           </audio>
+           <div class="audio-status" id="audioStatus" style="display:none;"></div>`
+        : `<span class="audio-placeholder">🎧 해설강의 준비중</span>`}
+    </div>
+
+    <div class="card">
+      <span class="card-label step1">STEP 1 · 핵심 요약</span>
+      <div class="headline">${t.headline}</div>
+      <p class="definition">${t.definition}</p>
+      <ul class="bullets">${t.bullets.map(b => `<li><span class="bmark"></span><span>${b}</span></li>`).join('')}</ul>
+      <div class="tip-box"><span class="tip-icon">💡</span><span><b>암기포인트&nbsp;</b>${t.tip}</span></div>
+    </div>
+
+    <div class="card">
+      <span class="card-label step2">STEP 2 · 개념확인 문제</span>
+      <p class="question-text">${t.q}</p>
+      <div class="choices" id="choices"></div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="explain-box" id="explainBox">
+        <div class="elabel">정답 &amp; 해설</div>
+        <p id="explainText"></p>
+      </div>
+      <div class="quiz-actions"><button class="retry-btn" id="retryBtn">↺ 다시 풀기</button></div>
+    </div>
+
+    <div class="nav-footer">
+      <a class="nav-btn ${prev ? '' : 'disabled'}" href="${prev ? '#/theme/'+prev.no : '#'}">← 이전</a>
+      <a class="nav-btn list-btn" href="#/">≡ 전체 목록</a>
+      <a class="nav-btn ${next ? '' : 'disabled'}" href="${next ? '#/theme/'+next.no : '#'}">다음 →</a>
+    </div>
+  `;
+
+  const audioBtn = document.getElementById('audioToggleBtn');
+  if (audioBtn) {
+    audioBtn.onclick = () => {
+      const player = document.getElementById('audioPlayer');
+      const status = document.getElementById('audioStatus');
+      audioBtn.style.display = 'none';
+      player.style.display = 'block';
+
+      let resolved = false;
+      const markResolved = () => { resolved = true; };
+      player.addEventListener('canplay', markResolved, { once: true });
+      player.addEventListener('playing', markResolved, { once: true });
+
+      const showFallback = () => {
+        player.style.display = 'none';
+        status.style.display = 'block';
+        status.innerHTML = '⚠️ 이 브라우저에서는 재생이 원활하지 않습니다. <a href="' + (player.currentSrc || '${t.audio}') + '" target="_blank" rel="noopener">여기를 눌러 파일을 다운로드</a>한 뒤 들어보세요.';
+      };
+
+      const stallTimer = setTimeout(() => { if (!resolved) showFallback(); }, 6000);
+      player.addEventListener('error', () => { clearTimeout(stallTimer); showFallback(); }, { once: true });
+
+      player.play().catch(() => {});
+    };
+  }
+
+  const choicesWrap = document.getElementById('choices');
+
+  function paintResult(selectedIdx) {
+    const correctIdx = t.ans - 1;
+    Array.from(choicesWrap.children).forEach((btn, i) => {
+      btn.disabled = true;
+      const markSpan = btn.querySelector('.choice-mark');
+      if (i === correctIdx) {
+        btn.classList.add('correct-answer');
+        markSpan.textContent = '정답';
+        markSpan.classList.add('ok');
+      } else if (i === selectedIdx) {
+        btn.classList.add('wrong-answer');
+        markSpan.textContent = '선택';
+        markSpan.classList.add('no');
+      }
+    });
+    const banner = document.getElementById('resultBanner');
+    const isCorrect = selectedIdx === correctIdx;
+    banner.classList.add('show', isCorrect ? 'ok' : 'no');
+    banner.innerHTML = isCorrect
+      ? '✓ 정답입니다!'
+      : `✕ 오답입니다. 정답은 ${CIRC[correctIdx]}번 입니다.`;
+    document.getElementById('explainText').textContent = t.expl;
+    document.getElementById('explainBox').classList.add('show');
+    document.getElementById('retryBtn').classList.add('show');
+  }
+
+  function buildChoices() {
+    choicesWrap.innerHTML = '';
+    t.choices.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.innerHTML = `<span class="choice-num">${CIRC[i]}</span><span>${c}</span><span class="choice-mark"></span>`;
+      btn.onclick = () => {
+        if (btn.disabled) return;
+        btn.classList.add('selected');
+        progress[t.no] = (i === t.ans - 1) ? 'correct' : 'incorrect';
+        paintResult(i);
+        updateHeaderProgress();
+        refreshStatusDots(t.no);
+      };
+      choicesWrap.appendChild(btn);
+    });
+  }
+  buildChoices();
+
+  document.getElementById('retryBtn').onclick = () => {
+    delete progress[t.no];
+    document.getElementById('resultBanner').className = 'result-banner';
+    document.getElementById('explainBox').classList.remove('show');
+    document.getElementById('retryBtn').classList.remove('show');
+    buildChoices();
+    updateHeaderProgress();
+    refreshStatusDots(t.no);
+  };
+}
+
+function refreshStatusDots(no) {
+  const st = progress[no];
+  document.querySelectorAll(`a[href="#/theme/${no}"] .status-dot`).forEach(d => {
+    d.classList.remove('correct','incorrect');
+    if (st) d.classList.add(st);
+  });
+}
+
+/* ---------------- Router ---------------- */
+function route() {
+  const hash = location.hash || '#/';
+  const m = hash.match(/^#\/theme\/(\d+)/);
+  if (m) {
+    renderTheme(m[1]);
+    window.scrollTo({top:0, behavior:'instant'});
+  } else {
+    renderHome();
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  updateHeaderProgress();
+}
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>

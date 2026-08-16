@@ -330,6 +330,28 @@ body.theme-view .shell { padding-bottom: calc(var(--bottombar-h) + 28px + env(sa
   border: 1px dashed var(--border);
 }
 .audio-player { width: 100%; height: 40px; }
+.audio-active { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; }
+.audio-loading {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.audio-loading::before {
+  content: '';
+  width: 12px; height: 12px;
+  border: 2px solid #c7d2fe;
+  border-top-color: #4338ca;
+  border-radius: 50%;
+  animation: audio-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes audio-spin { to { transform: rotate(360deg); } }
 .audio-status {
   font-size: 13px;
   font-weight: 600;
@@ -341,6 +363,17 @@ body.theme-view .shell { padding-bottom: calc(var(--bottombar-h) + 28px + env(sa
   line-height: 1.5;
 }
 .audio-status a { color: #c2410c; text-decoration: underline; font-weight: 700; }
+.audio-stop-btn {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  cursor: pointer;
+}
+.audio-stop-btn:hover { background: #fee2e2; }
 
 .card {
   background: var(--surface);
@@ -694,11 +727,15 @@ function renderTheme(no) {
     <div class="audio-bar">
       ${t.audio
         ? `<button class="audio-toggle-btn" id="audioToggleBtn">🎧 해설강의 듣기</button>
-           <audio class="audio-player" id="audioPlayer" controls preload="none" style="display:none;">
-             <source src="${t.audio}" type="audio/mp4">
-             이 브라우저는 오디오 재생을 지원하지 않습니다.
-           </audio>
-           <div class="audio-status" id="audioStatus" style="display:none;"></div>`
+           <div class="audio-active" id="audioActive" style="display:none;">
+             <div class="audio-loading" id="audioLoading">불러오는 중입니다...</div>
+             <audio class="audio-player" id="audioPlayer" controls preload="none" style="display:none;">
+               <source src="${t.audio}" type="audio/mp4">
+               이 브라우저는 오디오 재생을 지원하지 않습니다.
+             </audio>
+             <div class="audio-status" id="audioStatus" style="display:none;"></div>
+             <button class="audio-stop-btn" id="audioStopBtn">■ 재생 중지</button>
+           </div>`
         : `<span class="audio-placeholder">🎧 해설강의 준비중</span>`}
     </div>
 
@@ -731,25 +768,68 @@ function renderTheme(no) {
 
   const audioBtn = document.getElementById('audioToggleBtn');
   if (audioBtn) {
+    const activeWrap = document.getElementById('audioActive');
+    const loading = document.getElementById('audioLoading');
+    const player = document.getElementById('audioPlayer');
+    const status = document.getElementById('audioStatus');
+    const stopBtn = document.getElementById('audioStopBtn');
+    let watchdogTimer = null;
+    let settled = false;
+
+    // 재생을 완전히 멈추고 처음 상태(버튼만 보이는 상태)로 되돌림 — 항상 pause()를 호출해
+    // "타임아웃으로 실패 처리했는데 뒤늦게 소리만 몰래 재생되는" 상황을 방지함
+    const resetToIdle = () => {
+      clearTimeout(watchdogTimer);
+      try { player.pause(); } catch (e) {}
+      activeWrap.style.display = 'none';
+      loading.style.display = 'none';
+      player.style.display = 'none';
+      status.style.display = 'none';
+      audioBtn.style.display = 'inline-flex';
+      settled = true;
+    };
+    stopBtn.onclick = resetToIdle;
+
     audioBtn.onclick = () => {
-      const player = document.getElementById('audioPlayer');
-      const status = document.getElementById('audioStatus');
+      settled = false;
       audioBtn.style.display = 'none';
-      player.style.display = 'block';
+      activeWrap.style.display = 'flex';
+      loading.style.display = 'inline-flex';
+      player.style.display = 'none';
+      status.style.display = 'none';
 
-      let resolved = false;
-      const markResolved = () => { resolved = true; };
-      player.addEventListener('canplay', markResolved, { once: true });
-      player.addEventListener('playing', markResolved, { once: true });
+      const onReady = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(watchdogTimer);
+        loading.style.display = 'none';
+        player.style.display = 'block';
+      };
+      player.addEventListener('canplay', onReady, { once: true });
+      player.addEventListener('playing', onReady, { once: true });
 
-      const showFallback = () => {
+      const giveUp = () => {
+        if (settled) return;
+        settled = true;
+        try { player.pause(); } catch (e) {}
+        loading.style.display = 'none';
         player.style.display = 'none';
         status.style.display = 'block';
-        status.innerHTML = '⚠️ 이 브라우저에서는 재생이 원활하지 않습니다. <a href="' + (player.currentSrc || '${t.audio}') + '" target="_blank" rel="noopener">여기를 눌러 파일을 다운로드</a>한 뒤 들어보세요.';
+        status.innerHTML = '⚠️ 재생이 지연되고 있습니다. <a href="' + (player.currentSrc || '${t.audio}') + '" target="_blank" rel="noopener">여기를 눌러 파일을 다운로드</a>한 뒤 들어보세요.';
       };
 
-      const stallTimer = setTimeout(() => { if (!resolved) showFallback(); }, 6000);
-      player.addEventListener('error', () => { clearTimeout(stallTimer); showFallback(); }, { once: true });
+      // 진행률 기반 워치독: 데이터가 계속 들어오는 동안(progress 이벤트)에는 8초씩 유예를 계속 연장하고,
+      // 8초 동안 진행이 완전히 없을 때만 실패로 판단. 전체 30초를 넘기면 무조건 종료(무한 대기 방지)
+      const hardDeadline = Date.now() + 30000;
+      const scheduleWatchdog = () => {
+        clearTimeout(watchdogTimer);
+        const remaining = hardDeadline - Date.now();
+        const delay = Math.max(0, Math.min(8000, remaining));
+        watchdogTimer = setTimeout(giveUp, delay);
+      };
+      player.addEventListener('progress', scheduleWatchdog);
+      player.addEventListener('error', () => { clearTimeout(watchdogTimer); giveUp(); }, { once: true });
+      scheduleWatchdog();
 
       player.play().catch(() => {});
     };
